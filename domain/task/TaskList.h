@@ -4,16 +4,15 @@
 #include "Task.h"
 
 class TaskList final {
-private:
     struct Node final {
         std::shared_ptr<Task> data;
-        std::shared_ptr<Node> next;
+        std::unique_ptr<Node> next;
         Node* prev {nullptr};
 
-        explicit Node(std::shared_ptr<Task> data);
+        explicit Node(std::shared_ptr<Task> task);
     };
 
-    void removeNode(Node* node);
+    void removeNode(const Node* node);
     std::unique_ptr<Node> head_;
     Node* tail_ {nullptr};
 
