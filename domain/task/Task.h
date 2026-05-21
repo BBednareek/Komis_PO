@@ -15,6 +15,8 @@ public:
     [[nodiscard]] const TaskStatus&             getTaskStatus()      const;
 
     void complete();
+    friend std::ostream &operator<<(std::ostream &os, const Task &task);
+
 
 private:
     std::string taskName_;

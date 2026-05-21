@@ -1,4 +1,5 @@
 #include "Task.h"
+#include "TaskStatus.h"
 
 Task::Task(
     std::string taskName,

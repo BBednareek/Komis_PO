@@ -34,8 +34,8 @@ class DoublyLinkedList final {
 
         if (!prev) return;
 
-        auto removed = std::move(prev -> next);
-        prev -> next = std::move(removed -> next);
+        std::unique_ptr<Node> toDelete = std::move(prev -> next);
+        prev -> next = std::move(toDelete -> next);
 
         if (prev -> next) prev -> next -> prev = prev;
         else tail_ = prev;
@@ -73,16 +73,41 @@ public:
         }
     }
 
-    void display() const {
-        const Node* current = head_.get();
-
+    template<typename Func>
+    void forEach(Func action) const {
+        Node* current = head_.get();
         while (current) {
-            //Ostream potrzebny zeby sie nie wysypalo wysypwanie zarowno dla Vehicle jak i TaskList. //Stackoverflow
-            std::ostream& operator<<(std::ostream&, const T&);
+            action(current -> data);
             current = current -> next.get();
         }
     }
+
+    std::tuple<T> getAllData() const {
+        const Node* current = head_.get();
+        std::tuple<T> data;
+
+        while (current) {
+            data.emplace_back(current->data);
+            current = current -> next.get();
+        }
+
+        return data;
+    }
+
     [[nodiscard]] bool empty() const noexcept { return head_ == nullptr; }
+
+    template<typename Predicate>
+    std::shared_ptr<T> findData(Predicate pred) {
+        Node* current = head_.get();
+
+        while (current) {
+            Node* next = current -> next.get();
+            if (pred(current -> data)) return current -> data;
+            current = next;
+        }
+
+        return nullptr;
+    }
 };
 
 

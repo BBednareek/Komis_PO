@@ -31,13 +31,13 @@ const std::string &Vehicle::getLicensePlate() const noexcept { return licensePla
 std::string Vehicle::getVehicleName() const { return brand_ + model_; }
 VehicleStatus Vehicle::getVehicleStatus() const noexcept { return vehicleStatus_; }
 VehicleData Vehicle::getVehicleData() {
-        return{
+        return std::make_tuple(
                 getVehicleName(),
                 licensePlate_,
                 horsePower_,
                 productionYear_,
                 engineCapacity_,
-                fuelType_
-        };
+                fuelType_,
+                vehicleStatus_
+        );
 }
-

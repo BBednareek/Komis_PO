@@ -5,6 +5,7 @@
 #ifndef KOMISPO_IVEHICLEREPOSITORY_H
 #define KOMISPO_IVEHICLEREPOSITORY_H
 
+
 #include "../Vehicle/Vehicle.h"
 #include <string_view>
 
@@ -14,9 +15,9 @@ public:
 
     virtual void add(std::shared_ptr<Vehicle>) = 0;
     virtual void remove(std::string_view registration) = 0;
-    virtual std::shared_ptr<Vehicle> findByRegistration(std::string_view registration) = 0;
-
-
+    virtual VehicleData findByRegistration(std::string_view registration) = 0;
+    virtual std::vector<VehicleData> getAllVehicles() = 0;
+    virtual void displayAllVehicles() const = 0;
 };
 
 

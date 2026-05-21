@@ -22,11 +22,8 @@ add_executable(KomisPO entrypoint/main.cpp
         presentation/cli/ConsoleApplication.cpp
         presentation/cli/ConsoleApplication.h
         infrastructure/repositories/IMAccountRepository.cpp
-        infrastructure/repositories/IMAccountRepository.h
         infrastructure/repositories/IMVehicleRepository.cpp
-        infrastructure/repositories/IMVehicleRepository.h
         infrastructure/repositories/IMTaskRepository.cpp
-        infrastructure/repositories/IMTaskRepository.h
         domain/common/Types.h
         domain/common/Exceptions.h
         domain/repositories/IAccountRepository.h

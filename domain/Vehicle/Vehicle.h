@@ -4,7 +4,6 @@
 #include "FuelType.h"
 #include "VehicleStatus.h"
 #include "../common/Types.h"
-#include <vector>
 
 class Vehicle {
 public:
@@ -26,6 +25,8 @@ public:
     void reserve();
     void markReadyForPickup();
     void release();
+
+    friend std::ostream &operator<<(std::ostream &os, const Vehicle &vehicle);
 
 private:
     std::string   brand_;

@@ -1,10 +1,10 @@
 //
 // Created by Mini on 20/05/2026.
 //
-
 #ifndef KOMISPO_CUSTOMERACCOUNT_H
 #define KOMISPO_CUSTOMERACCOUNT_H
 #include "Account.h"
+
 
 class CustomerAccount final : public Account {
 public:
