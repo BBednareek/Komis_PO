@@ -9,13 +9,16 @@
 
 class Account {
 public:
+    Account(std::string login, std::string password);
+
     virtual ~Account() = default;
 
-    [[nodiscard]] bool               isLoggedIn() const;
-    [[nodiscard]] const std::string& getLogin()   const;
+    [[nodiscard]] bool               isLoggedIn() const noexcept;
+    [[nodiscard]] const std::string& getLogin()   const noexcept;
 
-protected:
-    Account(std::string login, std::string password);
+    [[nodiscard]] bool auth(std::string_view password) const noexcept;
+                  void login();
+                  void logout();
 
 private:
     std::string login_;

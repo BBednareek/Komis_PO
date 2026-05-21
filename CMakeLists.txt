@@ -31,11 +31,7 @@ add_executable(KomisPO entrypoint/main.cpp
         infrastructure/repositories/IMTaskRepository.h
         domain/common/Types.h
         domain/common/Exceptions.h
-        domain/common/Date.h
         domain/repositories/IAccountRepository.h
         domain/repositories/IVehicleRepository.h
-        domain/repositories/ITaskRepository.cpp
         domain/repositories/ITaskRepository.h
-        domain/Vehicle/VehicleCriteria.cpp
-        domain/Vehicle/VehicleCriteria.h
 )

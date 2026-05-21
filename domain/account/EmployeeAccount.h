@@ -5,7 +5,7 @@
 #include "../Task/Task.h"
 #include <vector>
 
-class EmployeeAccount : public Account {
+class EmployeeAccount final : public Account {
 public:
     EmployeeAccount(
         uint32_t employeeId,
@@ -15,6 +15,9 @@ public:
     );
 
     void assignTask(std::shared_ptr<Task>);
+
+    [[nodiscard]]
+    const std::vector<std::shared_ptr<Task>>& getTaskList() const noexcept;
 
 private:
     uint32_t employeeId_;

@@ -6,7 +6,7 @@
 #define KOMISPO_CUSTOMERACCOUNT_H
 #include "Account.h"
 
-class CustomerAccount : public Account {
+class CustomerAccount final : public Account {
 public:
     CustomerAccount(
         std::string name,
@@ -14,13 +14,13 @@ public:
         std::string address
     );
 
-    void incrementPurchasedVehicles();
+    void incrementPurchasedVehicles() noexcept;
 
 private:
     std::string      firstName_;
     std::string      lastName_;
     std::string      address_;
-         uint32_t    purchasedVehiclesCount_;
+    std::uint32_t    purchasedVehiclesCount_ {0};
 };
 
 
