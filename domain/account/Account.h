@@ -9,7 +9,7 @@
 
 class Account {
 public:
-    Account(std::string login, std::string password);
+    Account(std::string login, const std::string& password);
 
     virtual ~Account() = default;
 

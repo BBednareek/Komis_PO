@@ -11,7 +11,9 @@ public:
     CustomerAccount(
         std::string name,
         std::string surname,
-        std::string address
+        std::string address,
+        std::string login,
+        const std::string& password
     );
 
     void incrementPurchasedVehicles() noexcept;

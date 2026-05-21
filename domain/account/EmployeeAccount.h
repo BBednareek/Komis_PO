@@ -3,25 +3,29 @@
 
 #include "Account.h"
 #include "../Task/Task.h"
+#include "../common/Types.h"
 #include <vector>
 
 class EmployeeAccount final : public Account {
 public:
     EmployeeAccount(
-        uint32_t employeeId,
+        EmployeeId employeeId,
         std::string name,
         std::string surname,
-        std::string
+        std::string login,
+        const std::string& password,
+        const std::vector<std::shared_ptr<Task>>& tasks
     );
 
-    void assignTask(std::shared_ptr<Task>);
+    void assignTask(const std::shared_ptr<Task>& task);
 
     [[nodiscard]]
     const std::vector<std::shared_ptr<Task>>& getTaskList() const noexcept;
 
 private:
-    uint32_t employeeId_;
+    EmployeeId employeeId_;
     std::string name_;
+    std::string surname_;
     std::vector<std::shared_ptr<Task>> tasks_;
 };
 
