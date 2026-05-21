@@ -1,7 +1,7 @@
 #ifndef KOMISPO_VEHICLE_H
 #define KOMISPO_VEHICLE_H
 #include <string>
-#include "../enums/FuelType.h"
+#include "FuelType.h"
 #include "../enums/VehicleStatus.h"
 
 class Vehicle {

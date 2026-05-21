@@ -6,7 +6,7 @@
 #define KOMISPO_TASK_H
 #include <string>
 
-#include "../enums/VehicleStatus.h"
+#include "../Vehicle/VehicleStatus.h"
 #include "../Vehicle/Vehicle.h"
 
 class Task {
