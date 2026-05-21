@@ -2,7 +2,13 @@
 #define KOMISPO_TYPES_H
 
 #include <cstdint>
+#include "DoublyLinkedList.hpp"
 
-using EmployeeId = std::uint64_t;
+class Task;
+class Vehicle;
+
+using VehicleData = std::tuple<std::string, std::string, std::uint32_t, std::uint32_t, double, FuelType>;
+using TaskList = DoublyLinkedList<Task>;
+using VehicleList = DoublyLinkedList<Vehicle>;
 
 #endif //KOMISPO_TYPES_H

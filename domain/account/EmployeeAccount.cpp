@@ -5,7 +5,7 @@
 #include "EmployeeAccount.h"
 
 EmployeeAccount::EmployeeAccount(
-        const EmployeeId employeeId,
+        const std::uint32_t employeeId,
         std::string name,
         std::string surname,
         std::string login,

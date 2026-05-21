@@ -3,38 +3,26 @@
 #include <string>
 #include "FuelType.h"
 #include "VehicleStatus.h"
+#include "../common/Types.h"
+#include <vector>
 
 class Vehicle {
 public:
-    Vehicle(std::string brand,
+    Vehicle(
+        std::string brand,
         std::string model,
-        double engineCapacity,
+        std::string licensePlate,
         std::uint32_t horsePower,
-        FuelType fuelType,
         std::uint32_t productionYear,
-        std::string registrationNumber
+        std::string expirationDate,
+        double engineCapacity,
+        FuelType fuelType
         );
 
-    [[nodiscard]] const std::string&    getBrand()          const;
-    [[nodiscard]] const std::string&    getModel()          const;
-    [[nodiscard]] const std::string&    getLicensePlate()   const;
-    [[nodiscard]] const FuelType&   getFuelType()   const;
-    [[nodiscard]] const VehicleStatus&  getVehicleStatus()  const;
-    [[nodiscard]] const double&         getEngineCapacity() const;
-    [[nodiscard]] const int&            getHorsePower()    const;
-    [[nodiscard]] const int&            getProductionYear() const;
-    [[nodiscard]] const int&            getExpirationDate() const; // Data waznosci badania okresowego
-
-    void setBrand(const std::string& brand);
-    void setModel(const std::string& model);
-    void setLicensePlate(const std::string& licensePlate);
-    void setFuelType(const FuelType& fuelType);
-    void setVehicleStatus(const VehicleStatus& vehicleStatus);
-    void setEngineCapacity(const double& engineCapacity);
-    void setHorsePower(const int& enginePower);
-    void setProductionYear(const int& productionYear);
-    void setExpirationDate(const int& expirationDate);
-
+    [[nodiscard]] const std::string& getLicensePlate() const noexcept;
+    [[nodiscard]] VehicleStatus getVehicleStatus() const noexcept;
+    [[nodiscard]] std::string getVehicleName() const;
+    VehicleData getVehicleData();
     void reserve();
     void markReadyForPickup();
     void release();
@@ -43,13 +31,12 @@ private:
     std::string   brand_;
     std::string   model_;
     std::string   licensePlate_;
-    FuelType      fuelCategory_;
-    VehicleStatus vehicleStatus_ { VehicleStatus::ForSale };
+    std::string   expirationDate_;
+    std::uint32_t productionYear_;
     std::uint32_t horsePower_;
     double        engineCapacity_;
-    int           productionYear_;
-    int           expirationDate_;
-
+    FuelType      fuelType_;
+    VehicleStatus vehicleStatus_ { VehicleStatus::ForSale };
 };
 
 #endif //KOMISPO_VEHICLE_H

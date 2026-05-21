@@ -16,8 +16,6 @@ add_executable(KomisPO entrypoint/main.cpp
         domain/Vehicle/Vehicle.h
         domain/task/Task.cpp
         domain/task/Task.h
-        domain/task/TaskList.cpp
-        domain/task/TaskList.h
         domain/task/TaskStatus.h
         presentation/cli/Menu.cpp
         presentation/cli/Menu.h
@@ -34,4 +32,5 @@ add_executable(KomisPO entrypoint/main.cpp
         domain/repositories/IAccountRepository.h
         domain/repositories/IVehicleRepository.h
         domain/repositories/ITaskRepository.h
+        domain/common/DoublyLinkedList.hpp
 )
