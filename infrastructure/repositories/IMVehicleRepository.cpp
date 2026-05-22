@@ -1,7 +1,9 @@
+#include <iostream>
+#include <memory>
 #include <vector>
-
 #include "../../domain/common/Exceptions.h"
 #include "../../domain/repositories/IVehicleRepository.h"
+#include "../../domain/common/ListTypes.h"
 
 class IMVehicleRepository final : public IVehicleRepository {
 public:

@@ -1,6 +1,4 @@
-//
-// Created by Mini on 20/05/2026.
-//
+#pragma once
 
 #ifndef KOMISPO_VEHICLESTATUS_H
 #define KOMISPO_VEHICLESTATUS_H

@@ -1,11 +1,10 @@
-//
-// Created by Mini on 21/05/2026.
-//
+#pragma once
 
 #ifndef KOMISPO_IACCOUNTREPOSITORY_H
 #define KOMISPO_IACCOUNTREPOSITORY_H
 
-#include "../account/Account.h"
+#include "../account/CustomerAccount.h"
+#include "../account/EmployeeAccount.h"
 
 class IAccountRepository {
 public:

@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef KOMISPO_DOUBLYLINKEDLIST_H
 #define KOMISPO_DOUBLYLINKEDLIST_H
 #include <iostream>
@@ -82,7 +84,7 @@ public:
         }
     }
 
-    std::tuple<T> getAllData() const {
+    [[nodiscard]] std::tuple<T> getAllData() const {
         const Node* current = head_.get();
         std::tuple<T> data;
 

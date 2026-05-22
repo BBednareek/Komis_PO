@@ -1,9 +1,13 @@
+#pragma once
+
 #ifndef KOMISPO_TASK_H
 #define KOMISPO_TASK_H
 #include <memory>
 #include <string>
-#include "../Vehicle/Vehicle.h"
 #include "TaskStatus.h"
+
+//forward declaration, import niepotrzebny - korzystamy tylko z weak_ptr
+class Vehicle;
 
 class Task {
 public:

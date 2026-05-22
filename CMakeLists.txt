@@ -24,10 +24,12 @@ add_executable(KomisPO entrypoint/main.cpp
         infrastructure/repositories/IMAccountRepository.cpp
         infrastructure/repositories/IMVehicleRepository.cpp
         infrastructure/repositories/IMTaskRepository.cpp
-        domain/common/Types.h
+        domain/common/ListTypes.h
         domain/common/Exceptions.h
         domain/repositories/IAccountRepository.h
         domain/repositories/IVehicleRepository.h
         domain/repositories/ITaskRepository.h
         domain/common/DoublyLinkedList.hpp
+        domain/vehicle/VehicleData.h
+        domain/task/TaskData.h
 )

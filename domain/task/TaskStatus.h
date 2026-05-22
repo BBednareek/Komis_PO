@@ -1,6 +1,4 @@
-//
-// Created by Mini on 21/05/2026.
-//
+#pragma once
 
 #ifndef KOMISPO_TASKSTATUS_H
 #define KOMISPO_TASKSTATUS_H

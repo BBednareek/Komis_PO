@@ -1,9 +1,11 @@
+#pragma once
+
 #ifndef KOMISPO_VEHICLE_H
 #define KOMISPO_VEHICLE_H
 #include <string>
 #include "FuelType.h"
 #include "VehicleStatus.h"
-#include "../common/Types.h"
+#include "VehicleData.h"
 
 class Vehicle {
 public:

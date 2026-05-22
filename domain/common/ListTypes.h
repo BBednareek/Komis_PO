@@ -1,12 +1,13 @@
+#pragma once
+
 #ifndef KOMISPO_TYPES_H
 #define KOMISPO_TYPES_H
 
 #include <cstdint>
 #include "DoublyLinkedList.hpp"
-#include "../../domain/task/TaskStatus.h"
+#include "../../domain/account/CustomerAccount.h"
+#include "../../domain/account/EmployeeAccount.h"
 
-using VehicleData = std::tuple<std::string, std::string, std::uint32_t, std::uint32_t, double, FuelType, VehicleStatus>;
-using TaskData = std::tuple<std::string, TaskStatus>;
 
 using TaskList = DoublyLinkedList<Task>;
 using VehicleList = DoublyLinkedList<Vehicle>;
