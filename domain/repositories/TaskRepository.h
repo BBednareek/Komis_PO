@@ -5,9 +5,9 @@
 
 #include "../task/Task.h"
 
-class ITaskRepository {
+class TaskRepository {
 public:
-    virtual ~ITaskRepository() = default;
+    virtual ~TaskRepository() = default;
 
     virtual void add(std::shared_ptr<Task> task) = 0;
     virtual void removeCompleted() = 0;

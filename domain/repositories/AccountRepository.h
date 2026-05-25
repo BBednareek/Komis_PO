@@ -6,12 +6,12 @@
 #include "../account/CustomerAccount.h"
 #include "../account/EmployeeAccount.h"
 
-class IAccountRepository {
+class AccountRepository {
 public:
     const int employeeConstraint { 10 };
     const int customerConstraint { 200 };
 
-    virtual ~IAccountRepository() = default;
+    virtual ~AccountRepository() = default;
 
     virtual void addEmployee(std::shared_ptr<EmployeeAccount>) = 0;
     virtual void addCustomer(std::shared_ptr<CustomerAccount>) = 0;

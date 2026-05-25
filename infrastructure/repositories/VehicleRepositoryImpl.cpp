@@ -1,33 +1,32 @@
+#include "VehicleRepositoryImpl.h"
+
 #include <iostream>
 #include <memory>
 #include <vector>
 #include "../../domain/common/Exceptions.h"
-#include "../../domain/repositories/IVehicleRepository.h"
+#include "../../domain/repositories/VehicleRepository.h"
 #include "../../domain/common/ListTypes.h"
 
-class IMVehicleRepository final : public IVehicleRepository {
-public:
-    void add(const std::shared_ptr<Vehicle> vehicle) override { vehicleList_.pushBack(vehicle); }
+    void VehicleRepositoryImpl::add(const std::shared_ptr<Vehicle> vehicle) { vehicleList_.pushBack(vehicle); }
 
     // Ze wzgledu na predykat uzyty w template nalezalo wykorzystac lambda functions do porownania
-    void remove(const std::string_view registration) override {
+    void VehicleRepositoryImpl::remove(const std::string_view registration)  {
         vehicleList_.removeIf([&](const std::shared_ptr<Vehicle>& v) {
             return v -> getLicensePlate() == registration;
         });
     }
 
-    VehicleData findByRegistration(const std::string_view registration) override {
+    std::shared_ptr<Vehicle> VehicleRepositoryImpl::findByRegistration(const std::string_view registration)  {
         const auto vehiclePtr = vehicleList_.findData([&](const std::shared_ptr<Vehicle>& v) {
             return v -> getLicensePlate() == registration;
         });
 
-        if (vehiclePtr) return vehiclePtr -> getVehicleData();
+        if (vehiclePtr) return vehiclePtr;
         throw VehicleException("Nie znaleziono pojazdu");
     }
 
-    std::vector<VehicleData> getAllVehicles() override {
+    std::vector<VehicleData> VehicleRepositoryImpl::getAllVehicles()  {
         std::vector<VehicleData> data;
-
         vehicleList_.forEach([&](const std::shared_ptr<Vehicle>& v) {
             if (v) data.push_back(v -> getVehicleData());
         });
@@ -35,13 +34,8 @@ public:
         return data;
     }
 
-    void displayAllVehicles() const override {
+    void VehicleRepositoryImpl::displayAllVehicles() const {
         vehicleList_.forEach([&](const std::shared_ptr<Vehicle>& v) {
             if (v) std::cout << *v << std::endl;
         });
     }
-
-
-private:
-    VehicleList vehicleList_;
-};
