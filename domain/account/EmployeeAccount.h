@@ -17,9 +17,15 @@ public:
     );
 
     void assignTask(const std::shared_ptr<Task>& task);
+    void completeTask(std::size_t index) const;
 
-    [[nodiscard]]
-    const std::vector<std::shared_ptr<Task>>& getTaskList() const noexcept;
+    [[nodiscard]] std::uint32_t getEmployeeId() const noexcept;
+    [[nodiscard]] const std::string& getFirstName() const noexcept;
+    [[nodiscard]] const std::string& getLastName() const noexcept;
+    [[nodiscard]] std::string getFullName() const noexcept;
+    [[nodiscard]] std::uint32_t getPendingTaskCount() const noexcept;
+    [[nodiscard]] const std::vector<std::shared_ptr<Task>>& getTaskList() const noexcept;
+
 
 private:
     std::uint32_t employeeId_;
@@ -27,6 +33,5 @@ private:
     std::string surname_;
     std::vector<std::shared_ptr<Task>> tasks_;
 };
-
 
 #endif //KOMISPO_EMPLOYEEACCOUNT_H

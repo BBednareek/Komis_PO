@@ -23,10 +23,11 @@ public:
     [[nodiscard]] const std::string& getLicensePlate() const noexcept;
     [[nodiscard]] VehicleStatus getVehicleStatus() const noexcept;
     [[nodiscard]] std::string getVehicleName() const;
-    VehicleData getVehicleData();
     void reserve();
     void markReadyForPickup();
     void release();
+    [[nodiscard]] bool isAvailableForReservation() const noexcept;
+    [[nodiscard]] VehicleData getVehicleData() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Vehicle &vehicle);
 

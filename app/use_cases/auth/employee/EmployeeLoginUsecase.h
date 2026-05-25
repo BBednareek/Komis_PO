@@ -6,7 +6,7 @@
 #define KOMISPO_EMPLOYEELOGINUSECASE_H
 #include <memory>
 
-#include "../../../domain/repositories/AccountRepository.h"
+#include "../../../../domain/repositories/AccountRepository.h"
 
 class EmployeeLoginUsecase final {
 public:

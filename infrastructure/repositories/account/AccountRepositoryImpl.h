@@ -1,8 +1,8 @@
 #ifndef KOMISPO_ACCOUNTREPOSITORYIMPL_H
 #define KOMISPO_ACCOUNTREPOSITORYIMPL_H
 #include <memory>
-#include "../../domain/common/ListTypes.h"
-#include "../../domain/repositories/AccountRepository.h"
+#include "../../../domain/common/ListTypes.h"
+#include "../../../domain/repositories/AccountRepository.h"
 
 class AccountRepositoryImpl final : public AccountRepository {
 public:
@@ -12,7 +12,8 @@ public:
     std::shared_ptr<CustomerAccount> findCustomerByLogin(std::string_view login) override;
 
     std::shared_ptr<EmployeeAccount> findEmployeeByLogin(std::string_view login) override ;
-
+    [[nodiscard]] std::vector<std::shared_ptr<EmployeeAccount>> getAllEmployees() const override;
+    [[nodiscard]] std::vector<std::shared_ptr<CustomerAccount>> getAllCustomers() const override;
 
 private:
     EmployeeAccountList employeeAccountList_;

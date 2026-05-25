@@ -15,4 +15,14 @@ public:
     using std::runtime_error::runtime_error;
 };
 
+class ValidationException final : public std::runtime_error {
+public:
+    using std::runtime_error::runtime_error;
+};
+
+class TaskException final : public std::runtime_error {
+public:
+    using std::runtime_error::runtime_error;
+};
+
 #endif //KOMISPO_EXCEPTIONS_H

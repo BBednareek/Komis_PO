@@ -17,6 +17,8 @@ public:
     virtual void addCustomer(std::shared_ptr<CustomerAccount>) = 0;
     virtual std::shared_ptr<CustomerAccount> findCustomerByLogin(std::string_view login) = 0;
     virtual std::shared_ptr<EmployeeAccount> findEmployeeByLogin(std::string_view login) = 0;
+    [[nodiscard]] virtual std::vector<std::shared_ptr<EmployeeAccount>> getAllEmployees() const = 0;
+    [[nodiscard]] virtual std::vector<std::shared_ptr<CustomerAccount>> getAllCustomers() const = 0;
 };
 
 

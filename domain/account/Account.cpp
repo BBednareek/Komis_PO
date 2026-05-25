@@ -15,3 +15,7 @@ Account::Account(std::string login, const std::string& password) :
 
 void Account::login()   { loggedIn_ = true;  }
 void Account::logout()  { loggedIn_ = false; }
+
+std::string Account::hashPassword(const std::string_view password) {
+    return std::to_string(std::hash<std::string>{}(std::string(password)));
+}

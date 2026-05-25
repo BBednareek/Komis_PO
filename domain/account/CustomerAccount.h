@@ -17,6 +17,11 @@ public:
     );
 
     void incrementPurchasedVehicles() noexcept;
+    [[nodiscard]] const std::string& getFirstName() const noexcept;
+    [[nodiscard]] const std::string& getLastName() const noexcept;
+    [[nodiscard]] const std::string& getAddress() const noexcept;
+    [[nodiscard]] std::string getFullName() const;
+    [[nodiscard]] std::uint32_t getPurchasedVehiclesCount() const noexcept;
 
 private:
     std::string      firstName_;

@@ -3,18 +3,25 @@
 #include <memory>
 
 #include "../../domain/repositories/AccountRepository.h"
+#include "../../domain/repositories/TaskRepository.h"
 #include "../../domain/repositories/VehicleRepository.h"
 
 
 class System final {
 public:
-    System(std::unique_ptr<AccountRepository> accountRepository, std::unique_ptr<VehicleRepository> vehicleRepository);
+    System(
+        std::unique_ptr<AccountRepository>  accountRepository,
+        std::unique_ptr<VehicleRepository>  vehicleRepository,
+        std::unique_ptr<TaskRepository>     taskRepository
+        );
 
     [[nodiscard]] AccountRepository& accounts() const noexcept;
     [[nodiscard]] VehicleRepository& vehicles() const noexcept;
+    [[nodiscard]] TaskRepository&    tasks()    const noexcept;
 
 private:
     std::unique_ptr<AccountRepository> accountRepository_;
+    std::unique_ptr<TaskRepository> taskRepository_;
     std::unique_ptr<VehicleRepository> vehicleRepository_;
 };
 

@@ -3,9 +3,12 @@
 #ifndef KOMISPO_TASKDATA_H
 #define KOMISPO_TASKDATA_H
 #include <string>
-#include <tuple>
 #include "TaskStatus.h"
 
-using TaskData = std::tuple<std::string, TaskStatus>;
-
+struct TaskData final {
+    std::string taskName;
+    std::string description;
+    std::string assignedVehicleLicensePlate;
+    TaskStatus status {TaskStatus::Pending};
+};
 #endif //KOMISPO_TASKDATA_H

@@ -4,10 +4,10 @@
 #define KOMISPO_TASK_H
 #include <memory>
 #include <string>
-#include "TaskStatus.h"
 
-//forward declaration, import niepotrzebny - korzystamy tylko z weak_ptr
-class Vehicle;
+#include "TaskData.h"
+#include "TaskStatus.h"
+#include "../vehicle/Vehicle.h"
 
 class Task {
 public:
@@ -17,6 +17,7 @@ public:
     [[nodiscard]] const std::string&            getTaskDescription() const;
     [[nodiscard]] const std::weak_ptr<Vehicle>& getAssignedVehicle() const;
     [[nodiscard]] const TaskStatus&             getTaskStatus()      const;
+    [[nodiscard]]       TaskData                getTaskData()        const;
 
     void complete();
     friend std::ostream &operator<<(std::ostream &os, const Task &task);

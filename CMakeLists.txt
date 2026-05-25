@@ -17,13 +17,13 @@ add_executable(KomisPO entrypoint/main.cpp
         domain/task/Task.cpp
         domain/task/Task.h
         domain/task/TaskStatus.h
-        presentation/cli/Menu.cpp
-        presentation/cli/Menu.h
-        presentation/cli/ConsoleApplication.cpp
-        presentation/cli/ConsoleApplication.h
-        infrastructure/repositories/AccountRepositoryImpl.cpp
-        infrastructure/repositories/VehicleRepositoryImpl.cpp
-        infrastructure/repositories/TaskRepositoryImpl.cpp
+        presentation/cli/menu/Menu.cpp
+        presentation/cli/menu/Menu.h
+        presentation/cli/console/ConsoleApplication.cpp
+        presentation/cli/console/ConsoleApplication.h
+        infrastructure/repositories/account/AccountRepositoryImpl.cpp
+        infrastructure/repositories/repository/VehicleRepositoryImpl.cpp
+        infrastructure/repositories/task/TaskRepositoryImpl.cpp
         domain/common/ListTypes.h
         domain/common/Exceptions.h
         domain/repositories/AccountRepository.h
@@ -32,15 +32,25 @@ add_executable(KomisPO entrypoint/main.cpp
         domain/common/DoublyLinkedList.hpp
         domain/vehicle/VehicleData.h
         domain/task/TaskData.h
-        app/use_cases/auth/CustomerLoginUsecase.cpp
-        app/use_cases/auth/CustomerLoginUsecase.h
-        app/use_cases/auth/EmployeeLoginUsecase.cpp
-        app/use_cases/auth/EmployeeLoginUsecase.h
-        app/use_cases/vehicle/ReserveVehicleUsecase.cpp
-        app/use_cases/vehicle/ReserveVehicleUsecase.h
+        app/use_cases/auth/customer/CustomerLoginUsecase.cpp
+        app/use_cases/auth/customer/CustomerLoginUsecase.h
+        app/use_cases/auth/employee/EmployeeLoginUsecase.cpp
+        app/use_cases/auth/employee/EmployeeLoginUsecase.h
+        app/use_cases/vehicle/reserve/ReserveVehicleUsecase.cpp
+        app/use_cases/vehicle/reserve/ReserveVehicleUsecase.h
         app/services/System.cpp
         app/services/System.h
-        infrastructure/repositories/AccountRepositoryImpl.h
-        infrastructure/repositories/TaskRepositoryImpl.h
-        infrastructure/repositories/VehicleRepositoryImpl.h
+        infrastructure/repositories/account/AccountRepositoryImpl.h
+        infrastructure/repositories/task/TaskRepositoryImpl.h
+        infrastructure/repositories/repository/VehicleRepositoryImpl.h
+        app/use_cases/vehicle/add/AddVehicleUsecase.cpp
+        app/use_cases/vehicle/add/AddVehicleUsecase.h
+        app/use_cases/vehicle/markReady/MarkVehicleReadyForPickupUsecase.cpp
+        app/use_cases/vehicle/markReady/MarkVehicleReadyForPickupUsecase.h
+        app/use_cases/vehicle/releaseVehicle/ReleaseVehicleReservationUsecase.cpp
+        app/use_cases/vehicle/releaseVehicle/ReleaseVehicleReservationUsecase.h
+        app/use_cases/vehicle/remove/RemoveVehicleUsecase.cpp
+        app/use_cases/vehicle/remove/RemoveVehicleUsecase.h
+        app/use_cases/task/CompleteTaskUsecase.cpp
+        app/use_cases/task/CompleteTaskUsecase.h
 )

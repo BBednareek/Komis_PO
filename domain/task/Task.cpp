@@ -1,5 +1,17 @@
 #include "Task.h"
 #include "TaskStatus.h"
+#include <iostream>
+
+namespace {
+    const char* toString(const TaskStatus status) {
+        switch (status) {
+            case TaskStatus::Pending: return "oczekujace";
+            case TaskStatus::Completed: return "completed";
+        }
+
+        return "nieznany";
+    }
+}
 
 Task::Task(
     std::string taskName,
@@ -17,3 +29,29 @@ Task::Task(
 [[nodiscard]] const std::weak_ptr<Vehicle>& Task::getAssignedVehicle() const { return vehicle_; }
 [[nodiscard]] const TaskStatus& Task::getTaskStatus() const { return status_; }
 void Task::complete() { status_ = TaskStatus::Completed; }
+
+TaskData Task::getTaskData() const {
+    TaskData data {
+        .taskName = taskName_,
+        .description = taskDescription_,
+        .assignedVehicleLicensePlate = "",
+        .status = status_
+    };
+    if (const auto vehicle = vehicle_.lock()) data.assignedVehicleLicensePlate = vehicle->getLicensePlate();
+
+    return data;
+}
+
+std::ostream& operator<<(std::ostream& os, const Task& task) {
+    os << task.taskName_
+       << " | "
+       << task.taskDescription_
+       << " | status: "
+       << toString(task.status_);
+
+    if (const auto vehicle = task.vehicle_.lock()) {
+        os << " | pojazd: " << vehicle->getLicensePlate();
+    }
+
+    return os;
+}

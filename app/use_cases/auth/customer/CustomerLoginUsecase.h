@@ -1,6 +1,6 @@
 #ifndef KOMISPO_CUSTOMERLOGINUSECASE_H
 #define KOMISPO_CUSTOMERLOGINUSECASE_H
-#include "../../../domain/repositories/AccountRepository.h"
+#include "../../../../domain/repositories/AccountRepository.h"
 
 
 class CustomerLoginUsecase final {

@@ -3,8 +3,8 @@
 
 #include <memory>
 #include <vector>
-#include "../../domain/repositories/VehicleRepository.h"
-#include "../../domain/common/ListTypes.h"
+#include "../../../domain/repositories/VehicleRepository.h"
+#include "../../../domain/common/ListTypes.h"
 
 class VehicleRepositoryImpl final : public VehicleRepository {
 public:
@@ -13,7 +13,7 @@ public:
     void displayAllVehicles() const override;
 
     std::shared_ptr<Vehicle> findByRegistration(std::string_view registration) override ;
-    std::vector<VehicleData> getAllVehicles() override ;
+    [[nodiscard]] std::vector<VehicleData> getAllVehicles() const override;
 
 private:
     VehicleList vehicleList_;

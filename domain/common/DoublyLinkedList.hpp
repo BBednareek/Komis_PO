@@ -84,9 +84,9 @@ public:
         }
     }
 
-    [[nodiscard]] std::tuple<T> getAllData() const {
+    [[nodiscard]] std::vector<std::shared_ptr<T>> getAllData() const {
         const Node* current = head_.get();
-        std::tuple<T> data;
+        std::vector<std::shared_ptr<T>> data;
 
         while (current) {
             data.emplace_back(current->data);
