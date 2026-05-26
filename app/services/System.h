@@ -14,6 +14,9 @@ public:
         std::unique_ptr<VehicleRepository>  vehicleRepository,
         std::unique_ptr<TaskRepository>     taskRepository
         );
+    // Klasa System posiada repozytoria przez std::unique_ptr,
+    // dlatego po usunięciu System wszystkie repozytoria i przechowywane dane są automatycznie usuwane zgodnie z RAII.
+    ~System();
 
     [[nodiscard]] AccountRepository& accounts() const noexcept;
     [[nodiscard]] VehicleRepository& vehicles() const noexcept;

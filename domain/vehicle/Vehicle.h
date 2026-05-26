@@ -6,6 +6,7 @@
 #include "FuelType.h"
 #include "VehicleStatus.h"
 #include "VehicleData.h"
+#include <vector>
 
 class Vehicle {
 public:
@@ -28,7 +29,6 @@ public:
     void release();
     [[nodiscard]] bool isAvailableForReservation() const noexcept;
     [[nodiscard]] VehicleData getVehicleData() const;
-
     friend std::ostream &operator<<(std::ostream &os, const Vehicle &vehicle);
 
 private:

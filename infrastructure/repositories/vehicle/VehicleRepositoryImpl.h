@@ -12,6 +12,7 @@ public:
     void remove(std::string_view registration) override;
     void displayAllVehicles() const override;
 
+    std::vector<VehicleData> searchForCar(const VehicleSearchCriteria &criteria) override;
     std::shared_ptr<Vehicle> findByRegistration(std::string_view registration) override ;
     [[nodiscard]] std::vector<VehicleData> getAllVehicles() const override;
 

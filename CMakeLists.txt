@@ -22,7 +22,7 @@ add_executable(KomisPO entrypoint/main.cpp
         presentation/cli/console/ConsoleApplication.cpp
         presentation/cli/console/ConsoleApplication.h
         infrastructure/repositories/account/AccountRepositoryImpl.cpp
-        infrastructure/repositories/repository/VehicleRepositoryImpl.cpp
+        infrastructure/repositories/vehicle/VehicleRepositoryImpl.cpp
         infrastructure/repositories/task/TaskRepositoryImpl.cpp
         domain/common/ListTypes.h
         domain/common/Exceptions.h
@@ -42,7 +42,7 @@ add_executable(KomisPO entrypoint/main.cpp
         app/services/System.h
         infrastructure/repositories/account/AccountRepositoryImpl.h
         infrastructure/repositories/task/TaskRepositoryImpl.h
-        infrastructure/repositories/repository/VehicleRepositoryImpl.h
+        infrastructure/repositories/vehicle/VehicleRepositoryImpl.h
         app/use_cases/vehicle/add/AddVehicleUsecase.cpp
         app/use_cases/vehicle/add/AddVehicleUsecase.h
         app/use_cases/vehicle/markReady/MarkVehicleReadyForPickupUsecase.cpp
@@ -53,4 +53,12 @@ add_executable(KomisPO entrypoint/main.cpp
         app/use_cases/vehicle/remove/RemoveVehicleUsecase.h
         app/use_cases/task/CompleteTaskUsecase.cpp
         app/use_cases/task/CompleteTaskUsecase.h
+        tests/fixture.h
+        "tests/fixture.cpp"
+        app/services/taskGenerator/TaskGenerator.cpp
+        app/services/taskGenerator/TaskGenerator.h
+        app/services/taskGenerator/taskTemplate.h
+        domain/vehicle/VehicleSearchCriteria.h
+        app/use_cases/vehicle/search/SearchVehicleUsecase.cpp
+        app/use_cases/vehicle/search/SearchVehicleUsecase.h
 )

@@ -48,6 +48,7 @@ public:
     ~DoublyLinkedList() = default;
     DoublyLinkedList(const DoublyLinkedList&) = delete;
     DoublyLinkedList& operator=(const DoublyLinkedList&) = delete;
+
     void pushBack(std::shared_ptr<T> value) {
         auto newNode = std::make_unique<Node>(std::move(value));
 

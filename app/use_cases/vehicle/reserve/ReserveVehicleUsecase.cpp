@@ -1,6 +1,7 @@
 #include "ReserveVehicleUsecase.h"
 #include "../../../../domain/common/Exceptions.h"
 #include <limits>
+#include "../../../services/taskGenerator/TaskGenerator.h"
 
 ReserveVehicleUsecase::ReserveVehicleUsecase(
     VehicleRepository&  vehicleRepository,
@@ -17,9 +18,13 @@ void ReserveVehicleUsecase::execute(const CustomerAccount& customer, const std::
 
     vehicle -> reserve();
 
+    const auto [name, description] =
+    TaskGenerator::generateReservationTask(customer.getFullName());
+
     const auto task = std::make_shared<Task>(
-        "Obsluga rezerwacji pojazdu",
-        "Skontaktuj sie z klientem " + customer.getFullName() + " i przygotuj pojazd do odbioru",
+
+        name,
+        description,
         vehicle,
         TaskStatus::Pending
     );

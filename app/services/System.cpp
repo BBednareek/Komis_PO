@@ -9,6 +9,8 @@ System::System(
     taskRepository_(std::move(taskRepository)),
     vehicleRepository_(std::move(vehicleRepository)) {}
 
+System::~System() = default;
+
 AccountRepository&  System::accounts()   const noexcept { return *accountRepository_; }
 VehicleRepository&  System::vehicles()   const noexcept { return *vehicleRepository_; }
 TaskRepository&     System::tasks()      const noexcept { return *taskRepository_; }

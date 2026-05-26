@@ -8,7 +8,7 @@
 
 class ReserveVehicleUsecase final {
 public:
-    ReserveVehicleUsecase(
+    explicit ReserveVehicleUsecase(
         VehicleRepository&  vehicleRepository,
         AccountRepository&  accountRepository,
         TaskRepository&     taskRepository

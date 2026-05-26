@@ -14,7 +14,7 @@
 #include "../../../app/use_cases/vehicle/remove/RemoveVehicleUsecase.h"
 #include "../../../app/use_cases/vehicle/markReady/MarkVehicleReadyForPickupUsecase.h"
 #include "../../../app/use_cases/vehicle/releaseVehicle/ReleaseVehicleReservationUsecase.h"
-
+#include "../../../app/use_cases/vehicle/search/SearchVehicleUsecase.h"
 
 
 class ConsoleApplication final {
@@ -33,13 +33,14 @@ private:
     void addVehicleFlow() const;
     void removeVehicleFlow() const;
     void markReadyForPickupFlow() const;
-    void releaseReservationFlow() const;
+    void releaseReservationFlow(const EmployeeAccount& employee) const;
 
     static void showEmployeeTasks(const EmployeeAccount& employee);
     void completeEmployeeTaskFlow(const EmployeeAccount& employee) const;
 
     static void printMessage(const std::string& message);
 
+    void searchVehicles() const;
     [[nodiscard]] static CustomerAccount& requireCustomerAccount(const std::shared_ptr<Account>& account);
     [[nodiscard]] static EmployeeAccount& requireEmployeeAccount(const std::shared_ptr<Account>& account);
 
@@ -49,6 +50,7 @@ private:
     System& system_;
     Menu menu_;
     CustomerLoginUsecase customerLoginUseCase_;
+    SearchVehicleUsecase searchVehicleUseCase_;
     EmployeeLoginUsecase employeeLoginUseCase_;
     CompleteTaskUsecase completeTaskUseCase_;
     AddVehicleUsecase addVehicleUseCase_;

@@ -1,5 +1,6 @@
 #include "Vehicle.h"
 #include <iostream>
+
 #include "../common/Exceptions.h"
 
 namespace vehicle {
@@ -75,7 +76,7 @@ VehicleData Vehicle::getVehicleData() const {
         };
 }
 
-[[nodiscard]] bool Vehicle::isAvailableForReservation() const noexcept { return vehicleStatus_ == VehicleStatus::Reserved; }
+[[nodiscard]] bool Vehicle::isAvailableForReservation() const noexcept { return vehicleStatus_ == VehicleStatus::ForSale; }
 
 std::ostream& operator<<(std::ostream& os, const Vehicle& vehicle) {
         os << vehicle.brand_ << ' ' << vehicle.model_

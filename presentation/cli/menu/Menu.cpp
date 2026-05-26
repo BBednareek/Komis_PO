@@ -26,7 +26,7 @@ CustomerAction Menu::promptCustomerAction() {
     std::cout   << "\n=== PANEL KLIENTA ===\n"
                 << "1. Lista pojazdow\n"
                 << "2. Rezerwuj pojazd\n"
-                << "3. Lista pojazdow\n"
+                << "3. Wyszukaj pojazd\n"
                 << "0. Wyloguj\n"
                 << "Wybor: ";
 

@@ -13,6 +13,7 @@ enum class MainAction : std::uint8_t {
 enum class CustomerAction : std::uint8_t {
     ShowVehicles    = 1,
     ReserveVehicle  = 2,
+    SearchVehicle   = 3,
     Logout          = 0,
 };
 

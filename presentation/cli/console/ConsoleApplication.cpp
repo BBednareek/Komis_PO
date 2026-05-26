@@ -40,6 +40,7 @@ namespace {
 ConsoleApplication::ConsoleApplication(System& system) :
         system_(system),
         customerLoginUseCase_(system.accounts()),
+        searchVehicleUseCase_(system.vehicles()),
         employeeLoginUseCase_(system.accounts()),
         completeTaskUseCase_(system.tasks()),
         addVehicleUseCase_(system.vehicles()),
@@ -47,8 +48,8 @@ ConsoleApplication::ConsoleApplication(System& system) :
         markVehicleReadyForPickupUseCase_(system.vehicles()),
         releaseVehicleReservationUseCase_(system.vehicles()),
         reserveVehicleUseCase_(system.vehicles(),
-            system.accounts(),
-            system.tasks()) {}
+                               system.accounts(),
+                               system.tasks()) {}
 
 void ConsoleApplication::run() const {
     bool running = true;
@@ -95,7 +96,7 @@ void ConsoleApplication::handleCustomerLogin() const {
     const auto password = Menu::prompt("Haslo: ");
     const auto account = customerLoginUseCase_.execute(login, password);
 
-    printMessage("Logowanie pracownika zakonczone sukcesem");
+    printMessage("Logowanie klienta zakonczone sukcesem");
     customerPanel(account);
 }
 void ConsoleApplication::handleEmployeeLogin() const {
@@ -118,6 +119,9 @@ void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) 
                     break;
                 case CustomerAction::ReserveVehicle:
                     reserveVehicleFlow(customer);
+                    break;
+                case CustomerAction::SearchVehicle:
+                    searchVehicles();
                     break;
                 case CustomerAction::Logout:
                     account -> logout();
@@ -151,7 +155,7 @@ void ConsoleApplication::employeePanel(const std::shared_ptr<Account>& account) 
                     markReadyForPickupFlow();
                     break;
                 case EmployeeAction::ReleaseReservation:
-                    releaseReservationFlow();
+                    releaseReservationFlow(employee);
                     break;
                 case EmployeeAction::ShowTasks:
                     showEmployeeTasks(employee);
@@ -197,6 +201,7 @@ void ConsoleApplication::reserveVehicleFlow(const CustomerAccount& customer) con
     reserveVehicleUseCase_.execute(customer, licensePlate);
     printMessage("Pojazd zostal zarezerwowany i przekazany do obslugi pracownika");
 }
+
 void ConsoleApplication::addVehicleFlow() const {
     const auto model = Menu::prompt("Marka: ");
     const auto brand = Menu::prompt("Model: ");
@@ -240,9 +245,14 @@ void ConsoleApplication::markReadyForPickupFlow() const {
     printMessage("Pojazd oznaczono jako gotowy do odbioru");
 }
 
-void ConsoleApplication::releaseReservationFlow() const {
+void ConsoleApplication::releaseReservationFlow(const EmployeeAccount& employee) const {
     const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu do usuniecia: ");
     releaseVehicleReservationUseCase_.execute(licensePlate);
+
+    for (const auto& task : employee.getTaskList())
+        if (task->getAssignedVehicle().lock()->getLicensePlate() == licensePlate) task->complete();
+
+
     printMessage("Rezerwacja pojazdu zostala zwolniona");
 }
 void ConsoleApplication::showEmployeeTasks(const EmployeeAccount& employee) {
@@ -255,17 +265,72 @@ void ConsoleApplication::showEmployeeTasks(const EmployeeAccount& employee) {
 
     std::cout << "\n=== LISTA ZADAN: " << employee.getFullName() << " ===\n";
     for (std::size_t index = 0; index < tasks.size(); ++index) {
-        if (const auto& task = tasks[index]) std::cout << index + 1 << ". " << *task << '\n';
+        if (const auto& task = tasks[index])
+            std::cout << index + 1 << ". " << *task << '\n';
     }
 }
 
-void ConsoleApplication::completeEmployeeTaskFlow(const EmployeeAccount& employee) const {
+void ConsoleApplication::searchVehicles() const {
+    VehicleSearchCriteria vehicleSearchCriteria {};
+    std::string customerInput;
+
+    std::cout << "\n=== WYSZUKIWANIE POJAZDU ===\n";
+    std::cout << "Wartosci sa opcjonalne\n";
+    std::cout << "W celu pominiecia wpisywania wcisnij Enter\n";
+
+    std::cout << "Marka: ";
+    if (std::getline(std::cin, customerInput) && !customerInput.empty())
+        vehicleSearchCriteria.brand.emplace(std::move(customerInput));
+
+    std::cout << "Model: ";
+    if (std::getline(std::cin, customerInput) && !customerInput.empty())
+        vehicleSearchCriteria.model.emplace(std::move(customerInput));
+
+    std::cout << "Minimalny rok produkcji: ";
+    if (std::getline(std::cin, customerInput) && !customerInput.empty())
+        vehicleSearchCriteria.minYear.emplace(static_cast<std::uint32_t>(std::stoul(customerInput)));
+
+    std::cout << "Maksymalny rok produkcji: ";
+    if (std::getline(std::cin, customerInput) && !customerInput.empty())
+        vehicleSearchCriteria.maxYear.emplace(static_cast<std::uint32_t>(std::stoul(customerInput)));
+
+    std::cout << "Pojemnosc silnika: ";
+    if (std::getline(std::cin, customerInput) && !customerInput.empty())
+        vehicleSearchCriteria.engineCapacity.emplace(static_cast<std::uint32_t>(std::stod(customerInput)));
+
+    std::cout << "Minimalna ilosc koni mechanicznych: ";
+    if (std::getline(std::cin, customerInput) && !customerInput.empty())
+        vehicleSearchCriteria.horsePower.emplace(static_cast<std::uint32_t>(std::stoul(customerInput)));
+
+    const std::vector<VehicleData> result = searchVehicleUseCase_.execute(vehicleSearchCriteria);
+
+    if (result.empty()) {
+        std::cout << "Brak pojazdow w sprzedazy, ktore spelniaja zadane warunki";
+        return;
+    }
+
+    std::cout << "\n=== LISTA POJAZDOW ===\n";
+    for (const auto& vehicle : result) {
+        std::cout << vehicle.displayName()
+        << " | numer rejestracyjny: " << vehicle.licensePlate
+        << " | moc: " << vehicle.horsePower << " KM"
+        << " | rok: " << vehicle.productionYear
+        << " | pojemnosc skokowa: " << vehicle.engineCapacity
+        << " | paliwo: " << toString(vehicle.fuelType)
+        << " | data waznosci badania okresowego: " << vehicle.expirationDate
+        << " | status: " << toString(vehicle.vehicleStatus)
+        << '\n';
+
+    }
+}
+
+void ConsoleApplication::completeEmployeeTaskFlow(const EmployeeAccount& employee) const    {
     showEmployeeTasks(employee);
 
     const auto taskIndex = readUnsigned("Podaj numer zadania do zakonczenia: ");
     if (taskIndex <= 0) throw TaskException("Numer zadania musi byc wiekszy od zera");
 
-    completeTaskUseCase_.execute(employee, taskIndex);
+    completeTaskUseCase_.execute(employee, taskIndex - 1);
     printMessage("Zadanie zostalo oznaczone jako zakonczone");
 }
 
