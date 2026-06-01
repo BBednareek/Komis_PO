@@ -26,6 +26,7 @@ private:
     void handleMainAction(MainAction action) const;
     void handleCustomerLogin() const;
     void handleEmployeeLogin() const;
+    void clearData() const;
     void customerPanel(const std::shared_ptr<Account>& account) const;
     void employeePanel(const std::shared_ptr<Account>& account) const;
     void showVehicles() const;
@@ -46,6 +47,8 @@ private:
 
     static double readDouble(const std::string& label) ;
     [[nodiscard]] static std::uint32_t readUnsigned(const std::string& label);
+    [[nodiscard]] static bool confirmClearData();
+    [[noreturn]] void stayAliveAfterClear() const;
 
     System& system_;
     Menu menu_;
@@ -58,6 +61,7 @@ private:
     MarkVehicleReadyForPickupUsecase markVehicleReadyForPickupUseCase_;
     ReleaseVehicleReservationUsecase releaseVehicleReservationUseCase_;
     ReserveVehicleUsecase reserveVehicleUseCase_;
+    mutable bool maintenanceMode_ { false };
 };
 
 

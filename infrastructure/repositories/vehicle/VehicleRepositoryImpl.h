@@ -10,6 +10,7 @@ class VehicleRepositoryImpl final : public VehicleRepository {
 public:
     void add(std::shared_ptr<Vehicle> vehicle) override;
     void remove(std::string_view registration) override;
+    void clear() override;
 
     std::vector<VehicleData> searchForCar(const VehicleSearchCriteria &criteria) override;
     std::shared_ptr<Vehicle> findByRegistration(std::string_view registration) override ;

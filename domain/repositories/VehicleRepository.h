@@ -19,6 +19,7 @@ public:
     [[nodiscard]] virtual std::vector<VehicleData> getAllVehicles() const = 0;
     virtual void remove(std::string_view registration) = 0;
     virtual void add(std::shared_ptr<Vehicle>) = 0;
+    virtual void clear() = 0;
 };
 
 

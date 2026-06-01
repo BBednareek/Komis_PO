@@ -13,7 +13,8 @@ public:
         std::string surname,
         std::string address,
         std::string login,
-        const std::string& password
+        const std::string& password,
+        std::uint32_t purchasedVehiclesCount
     );
 
     void incrementPurchasedVehicles() noexcept;
@@ -27,7 +28,7 @@ private:
     std::string      firstName_;
     std::string      lastName_;
     std::string      address_;
-    std::uint32_t    purchasedVehiclesCount_ {0};
+    std::uint32_t    purchasedVehiclesCount_;
 };
 
 

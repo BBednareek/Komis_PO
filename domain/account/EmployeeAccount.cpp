@@ -21,10 +21,10 @@ void EmployeeAccount::assignTask(const std::shared_ptr<Task>& task) {
         tasks_.push_back(task);
 }
 
-void EmployeeAccount::completeTask(const std::size_t index) const {
+void EmployeeAccount::completeTask(const std::size_t index) {
         if (index >= tasks_.size() || tasks_[index] == nullptr) throw TaskException("Nie znaleziono zadania o podanym indeksie");
 
-        tasks_[index] -> complete();
+        tasks_.erase(tasks_.begin() + static_cast<long>(index));
 }
 
 void EmployeeAccount::completeTasksForVehicle(const std::string_view licensePlate) const {

@@ -16,6 +16,7 @@ MainAction Menu::promptMainAction() {
                 << "1. Logowanie klienta\n"
                 << "2. Logowanie pracownika\n"
                 << "3. Lista pojazdow\n"
+                << "4. Wyczyść dane\n"
                 << "0. Wyjscie\n"
                 << "Wybor: ";
 
@@ -71,5 +72,4 @@ int Menu::readInt() {
     clearInput();
     return choice;
 }
-
 

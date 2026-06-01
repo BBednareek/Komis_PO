@@ -1,6 +1,8 @@
 #include "ConsoleApplication.h"
 
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include "../../../domain/common/Exceptions.h"
 
@@ -98,9 +100,16 @@ void ConsoleApplication::run() const {
             }
 
             handleMainAction(action);
+            if (maintenanceMode_) {
+                break;
+            }
         } catch (const std::exception& e) {
             printMessage(e.what());
         }
+    }
+
+    if (maintenanceMode_) {
+        stayAliveAfterClear();
     }
 
     printMessage("Do zobaczenia");
@@ -118,6 +127,9 @@ void ConsoleApplication::handleMainAction(const MainAction action) const {
 
         case MainAction::ShowVehicles:
             showVehicles();
+            break;
+        case MainAction::ClearData:
+            clearData();
             break;
         case MainAction::Exit:
             break;
@@ -141,6 +153,20 @@ void ConsoleApplication::handleEmployeeLogin() const {
 
     printMessage("Logowanie pracownika zakonczone sukcesem");
     employeePanel(account);
+}
+
+void ConsoleApplication::clearData() const {
+    if (!confirmClearData()) {
+        printMessage("Anulowano czyszczenie danych");
+        return;
+    }
+
+    system_.accounts().clear();
+    system_.vehicles().clear();
+    system_.tasks().clear();
+    maintenanceMode_ = true;
+
+    printMessage("Dane zostaly wyczyszczone. Program pozostaje aktywny bez dostepu do menu.");
 }
 void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) const {
     const auto& customer = requireCustomerAccount(account);
@@ -318,14 +344,6 @@ void ConsoleApplication::searchVehicles() const {
     if (std::getline(std::cin, customerInput) && !customerInput.empty())
         vehicleSearchCriteria.maxYear.emplace(static_cast<std::uint32_t>(std::stoul(customerInput)));
 
-    std::cout << "Pojemnosc silnika: ";
-    if (std::getline(std::cin, customerInput) && !customerInput.empty())
-        vehicleSearchCriteria.engineCapacity.emplace(static_cast<std::uint32_t>(std::stod(customerInput)));
-
-    std::cout << "Minimalna ilosc koni mechanicznych: ";
-    if (std::getline(std::cin, customerInput) && !customerInput.empty())
-        vehicleSearchCriteria.horsePower.emplace(static_cast<std::uint32_t>(std::stoul(customerInput)));
-
     const std::vector<VehicleData> result = searchVehicleUseCase_.execute(vehicleSearchCriteria);
 
     if (result.empty()) {
@@ -374,4 +392,15 @@ void ConsoleApplication::printMessage(const std::string& message) {
 [[nodiscard]] std::uint32_t ConsoleApplication::readUnsigned(const std::string& label) {
     const auto value = Menu::prompt(label);
     return static_cast<std::uint32_t>(std::stoul(value));
+}
+
+[[nodiscard]] bool ConsoleApplication::confirmClearData() {
+    const auto answer = Menu::prompt("Czy na pewno wyczyscic dane? (tak/nie): ");
+    return answer == "tak" || answer == "TAK" || answer == "Tak" || answer == "t" || answer == "T" || answer == "1";
+}
+
+[[noreturn]] void ConsoleApplication::stayAliveAfterClear() const {
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 }

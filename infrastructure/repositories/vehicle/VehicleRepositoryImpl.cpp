@@ -1,7 +1,6 @@
 #include "VehicleRepositoryImpl.h"
 
 #include <algorithm>
-#include <cctype>
 #include <memory>
 #include <vector>
 #include "../../../domain/common/Exceptions.h"
@@ -21,13 +20,17 @@ void VehicleRepositoryImpl::add(const std::shared_ptr<Vehicle> vehicle) {
     }
 
     // Ze wzgledu na predykat uzyty w template nalezalo wykorzystac lambda functions do porownania
-    void VehicleRepositoryImpl::remove(const std::string_view registration) {
+void VehicleRepositoryImpl::remove(const std::string_view registration) {
         static_cast<void>(findByRegistration(registration));
 
         vehicleList_.removeIf([&](const std::shared_ptr<Vehicle>& v) {
             return v -> getLicensePlate() == registration;
         });
     }
+
+void VehicleRepositoryImpl::clear() {
+    vehicleList_.clear();
+}
 
     std::shared_ptr<Vehicle> VehicleRepositoryImpl::findByRegistration(const std::string_view registration)  {
         const auto vehiclePtr = vehicleList_.findData([&](const std::shared_ptr<Vehicle>& v) {
@@ -52,6 +55,7 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
     std::vector<VehicleData> results;
 
     auto normalize = [](std::string value) {
+        // ReSharper disable once CppUseRangeAlgorithm
         std::transform(value.begin(), value.end(), value.begin(), [](const unsigned char c) {
             return static_cast<char>(std::toupper(c));
         });
@@ -66,18 +70,16 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
 
         if (criteria.brand.has_value()) {
             const auto vehicleBrand = normalize(vData.brand);
-            const auto searchBrand = normalize(criteria.brand.value());
 
-            if (vehicleBrand.find(searchBrand) == std::string::npos) {
+            if (const auto searchBrand = normalize(criteria.brand.value()); vehicleBrand.find(searchBrand) == std::string::npos) {
                 return;
             }
         }
 
         if (criteria.model.has_value()) {
             const auto vehicleModel = normalize(vData.model);
-            const auto searchModel = normalize(criteria.model.value());
 
-            if (vehicleModel.find(searchModel) == std::string::npos) {
+            if (const auto searchModel = normalize(criteria.model.value()); vehicleModel.find(searchModel) == std::string::npos) {
                 return;
             }
         }
@@ -89,16 +91,6 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
 
         if (criteria.maxYear.has_value() &&
             vData.productionYear > criteria.maxYear.value()) {
-            return;
-        }
-
-        if (criteria.horsePower.has_value() &&
-            vData.horsePower < criteria.horsePower.value()) {
-            return;
-        }
-
-        if (criteria.engineCapacity.has_value() &&
-            vData.engineCapacity != criteria.engineCapacity.value()) {
             return;
         }
 

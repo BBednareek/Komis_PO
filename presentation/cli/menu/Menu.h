@@ -7,6 +7,7 @@ enum class MainAction : std::uint8_t {
     CustomerLogin   = 1,
     EmployeeLogin   = 2,
     ShowVehicles    = 3,
+    ClearData       = 4,
     Exit            = 0
 };
 
@@ -14,6 +15,9 @@ enum class CustomerAction : std::uint8_t {
     ShowVehicles    = 1,
     ReserveVehicle  = 2,
     SearchVehicle   = 3,
+    CollectVehicle  = 4,
+    ShowData        = 5,
+    ChangeAddress   = 6,
     Logout          = 0,
 };
 
@@ -25,6 +29,7 @@ enum class EmployeeAction : std::uint8_t {
     ReleaseReservation  = 5,
     ShowTasks           = 6,
     CompleteTask        = 7,
+    ShowEmployeeData    = 8,
     Logout              = 0
 };
 

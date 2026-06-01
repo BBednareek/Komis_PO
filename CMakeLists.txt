@@ -54,10 +54,10 @@ add_executable(KomisPO entrypoint/main.cpp
         app/use_cases/task/CompleteTaskUsecase.cpp
         app/use_cases/task/CompleteTaskUsecase.h
         tests/fixture.h
-        "tests/fixture.cpp"
+        tests/fixture.cpp
         app/services/taskGenerator/TaskGenerator.cpp
         app/services/taskGenerator/TaskGenerator.h
-        app/services/taskGenerator/taskTemplate.h
+        app/services/taskGenerator/TaskTemplate.h
         domain/vehicle/VehicleSearchCriteria.h
         app/use_cases/vehicle/search/SearchVehicleUsecase.cpp
         app/use_cases/vehicle/search/SearchVehicleUsecase.h

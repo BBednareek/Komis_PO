@@ -63,6 +63,11 @@ public:
         tail_ = tail_ -> next.get();
     }
 
+    void clear() noexcept {
+        head_.reset();
+        tail_ = nullptr;
+    }
+
     // Dodano typnemae Predicate aby poprzednia funkcja removeCompleted mogla dzialac jako remove
     // Dla zadanej wartosci niezaleznie od rodzaju listy (Task/VehicleList)
     template<typename Predicate>
