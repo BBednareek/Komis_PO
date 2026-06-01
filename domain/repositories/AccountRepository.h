@@ -8,9 +8,6 @@
 
 class AccountRepository {
 public:
-    const uint32_t employeeConstraint { 10 };
-    const uint32_t customerConstraint { 200 };
-
     virtual ~AccountRepository() = default;
 
     virtual void addEmployee(std::shared_ptr<EmployeeAccount>) = 0;

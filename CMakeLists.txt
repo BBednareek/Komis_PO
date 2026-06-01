@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.2)
+cmake_minimum_required(VERSION 4.1.2)
 project(KomisPO)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -10,10 +10,10 @@ add_executable(KomisPO entrypoint/main.cpp
         domain/account/CustomerAccount.h
         domain/account/EmployeeAccount.cpp
         domain/account/EmployeeAccount.h
-        domain/Vehicle/VehicleStatus.h
-        domain/Vehicle/FuelType.h
-        domain/Vehicle/Vehicle.cpp
-        domain/Vehicle/Vehicle.h
+        domain/vehicle/VehicleStatus.h
+        domain/vehicle/FuelType.h
+        domain/vehicle/Vehicle.cpp
+        domain/vehicle/Vehicle.h
         domain/task/Task.cpp
         domain/task/Task.h
         domain/task/TaskStatus.h

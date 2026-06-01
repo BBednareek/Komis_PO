@@ -13,8 +13,6 @@ public:
     virtual ~TaskRepository() = default;
 
     virtual void add(const std::shared_ptr<Task>& task) = 0;
-    virtual void removeCompleted() = 0;
-    virtual void displayAll() const = 0;
     [[nodiscard]] virtual std::vector<std::shared_ptr<Task>> getAllTasks() const = 0;
 };
 

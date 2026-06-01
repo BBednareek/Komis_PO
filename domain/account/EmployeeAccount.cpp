@@ -27,6 +27,17 @@ void EmployeeAccount::completeTask(const std::size_t index) const {
         tasks_[index] -> complete();
 }
 
+void EmployeeAccount::completeTasksForVehicle(const std::string_view licensePlate) const {
+        for (const auto& task : tasks_) {
+                if (task == nullptr) continue;
+
+                const auto assignedVehicle = task->getAssignedVehicle().lock();
+                if (assignedVehicle == nullptr) continue;
+
+                if (assignedVehicle->getLicensePlate() == licensePlate) task->complete();
+        }
+}
+
 [[nodiscard]] std::uint32_t EmployeeAccount::getEmployeeId() const noexcept { return employeeId_; }
 [[nodiscard]] const std::string& EmployeeAccount::getFirstName() const noexcept { return name_; }
 [[nodiscard]] const std::string& EmployeeAccount::getLastName() const noexcept { return surname_; }

@@ -19,7 +19,6 @@ public:
     [[nodiscard]]       TaskData                getTaskData()        const;
 
     void complete();
-    friend std::ostream &operator<<(std::ostream &os, const Task &task);
 
 
 private:

@@ -26,6 +26,15 @@ namespace {
         return "nieznany";
     }
 
+    const char* toString(const TaskStatus status) {
+        switch (status) {
+            case TaskStatus::Pending: return "oczekujace";
+            case TaskStatus::Completed: return "wykonane";
+        }
+
+        return "nieznany";
+    }
+
     FuelType toFuelType(const std::string& rawValue) {
         if (rawValue == "1") return FuelType::Petrol;
         if (rawValue == "2") return FuelType::Diesel;
@@ -35,6 +44,32 @@ namespace {
 
         throw std::invalid_argument("Niepoprawny typ paliwa");
     }
+
+    void printVehicle(const VehicleData& vehicle) {
+        std::cout << vehicle.displayName()
+        << " | numer rejestracyjny: " << vehicle.licensePlate
+        << " | moc: " << vehicle.horsePower << " KM"
+        << " | rok: " << vehicle.productionYear
+        << " | pojemnosc skokowa: " << vehicle.engineCapacity
+        << " | paliwo: " << toString(vehicle.fuelType)
+        << " | data waznosci badania okresowego: " << vehicle.expirationDate
+        << " | status: " << toString(vehicle.vehicleStatus)
+        << '\n';
+    }
+
+    void printTask(const Task& task) {
+        std::cout << task.getTaskName()
+        << " | "
+        << task.getTaskDescription()
+        << " | status: "
+        << toString(task.getTaskStatus());
+
+        if (const auto vehicle = task.getAssignedVehicle().lock()) {
+            std::cout << " | pojazd: " << vehicle->getLicensePlate();
+        }
+
+        std::cout << '\n';
+    }
 }
 
 ConsoleApplication::ConsoleApplication(System& system) :
@@ -42,7 +77,7 @@ ConsoleApplication::ConsoleApplication(System& system) :
         customerLoginUseCase_(system.accounts()),
         searchVehicleUseCase_(system.vehicles()),
         employeeLoginUseCase_(system.accounts()),
-        completeTaskUseCase_(system.tasks()),
+        completeTaskUseCase_(),
         addVehicleUseCase_(system.vehicles()),
         removeVehicleUseCase_(system.vehicles()),
         markVehicleReadyForPickupUseCase_(system.vehicles()),
@@ -136,7 +171,7 @@ void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) 
     }
 }
 void ConsoleApplication::employeePanel(const std::shared_ptr<Account>& account) const {
-    const auto& employee = requireEmployeeAccount(account);
+    auto& employee = requireEmployeeAccount(account);
     bool loggedIn = true;
 
     while (loggedIn) {
@@ -185,15 +220,7 @@ void ConsoleApplication::showVehicles() const {
 
     std::cout << "\n=== LISTA POJAZDOW ===\n";
     for (const auto& vehicle : vehicles) {
-        std::cout << vehicle.displayName()
-        << " | numer rejestracyjny: " << vehicle.licensePlate
-        << " | moc: " << vehicle.horsePower << " KM"
-        << " | rok: " << vehicle.productionYear
-        << " | pojemnosc skokowa: " << vehicle.engineCapacity
-        << " | paliwo: " << toString(vehicle.fuelType)
-        << " | data waznosci badania okresowego: " << vehicle.expirationDate
-        << " | status: " << toString(vehicle.vehicleStatus)
-        << '\n';
+        printVehicle(vehicle);
     }
 }
 void ConsoleApplication::reserveVehicleFlow(const CustomerAccount& customer) const {
@@ -245,14 +272,9 @@ void ConsoleApplication::markReadyForPickupFlow() const {
     printMessage("Pojazd oznaczono jako gotowy do odbioru");
 }
 
-void ConsoleApplication::releaseReservationFlow(const EmployeeAccount& employee) const {
+void ConsoleApplication::releaseReservationFlow(EmployeeAccount& employee) const {
     const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu do usuniecia: ");
-    releaseVehicleReservationUseCase_.execute(licensePlate);
-
-    for (const auto& task : employee.getTaskList())
-        if (task->getAssignedVehicle().lock()->getLicensePlate() == licensePlate) task->complete();
-
-
+    releaseVehicleReservationUseCase_.execute(employee, licensePlate);
     printMessage("Rezerwacja pojazdu zostala zwolniona");
 }
 void ConsoleApplication::showEmployeeTasks(const EmployeeAccount& employee) {
@@ -265,8 +287,10 @@ void ConsoleApplication::showEmployeeTasks(const EmployeeAccount& employee) {
 
     std::cout << "\n=== LISTA ZADAN: " << employee.getFullName() << " ===\n";
     for (std::size_t index = 0; index < tasks.size(); ++index) {
-        if (const auto& task = tasks[index])
-            std::cout << index + 1 << ". " << *task << '\n';
+        if (const auto& task = tasks[index]) {
+            std::cout << index + 1 << ". ";
+            printTask(*task);
+        }
     }
 }
 
@@ -311,20 +335,11 @@ void ConsoleApplication::searchVehicles() const {
 
     std::cout << "\n=== LISTA POJAZDOW ===\n";
     for (const auto& vehicle : result) {
-        std::cout << vehicle.displayName()
-        << " | numer rejestracyjny: " << vehicle.licensePlate
-        << " | moc: " << vehicle.horsePower << " KM"
-        << " | rok: " << vehicle.productionYear
-        << " | pojemnosc skokowa: " << vehicle.engineCapacity
-        << " | paliwo: " << toString(vehicle.fuelType)
-        << " | data waznosci badania okresowego: " << vehicle.expirationDate
-        << " | status: " << toString(vehicle.vehicleStatus)
-        << '\n';
-
+        printVehicle(vehicle);
     }
 }
 
-void ConsoleApplication::completeEmployeeTaskFlow(const EmployeeAccount& employee) const    {
+void ConsoleApplication::completeEmployeeTaskFlow(EmployeeAccount& employee) const    {
     showEmployeeTasks(employee);
 
     const auto taskIndex = readUnsigned("Podaj numer zadania do zakonczenia: ");

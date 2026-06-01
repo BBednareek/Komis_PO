@@ -1,17 +1,5 @@
 #include "Task.h"
 #include "TaskStatus.h"
-#include <iostream>
-
-namespace {
-    const char* toString(const TaskStatus status) {
-        switch (status) {
-            case TaskStatus::Pending: return "oczekujace";
-            case TaskStatus::Completed: return "wykonane";
-        }
-
-        return "nieznany";
-    }
-}
 
 Task::Task(
     std::string taskName,
@@ -38,18 +26,4 @@ TaskData Task::getTaskData() const {
     if (const auto vehicle = vehicle_.lock()) data.assignedVehicleLicensePlate = vehicle->getLicensePlate();
 
     return data;
-}
-
-std::ostream& operator<<(std::ostream& os, const Task& task) {
-    os << task.taskName_
-       << " | "
-       << task.taskDescription_
-       << " | status: "
-       << toString(task.status_);
-
-    if (const auto vehicle = task.vehicle_.lock()) {
-        os << " | pojazd: " << vehicle->getLicensePlate();
-    }
-
-    return os;
 }

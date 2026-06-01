@@ -1,8 +1,14 @@
 #include "AccountRepositoryImpl.h"
+#include <cstdint>
 #include <memory>
 #include "../../../domain/common/ListTypes.h"
 #include "../../../domain/repositories/AccountRepository.h"
 #include "../../../domain/common/Exceptions.h"
+
+namespace {
+    constexpr std::uint32_t employeeConstraint = 10;
+    constexpr std::uint32_t customerConstraint = 200;
+}
 
 void AccountRepositoryImpl::addEmployee(const std::shared_ptr<EmployeeAccount> account) {
     if (account == nullptr) throw ValidationException("Nie mozna dodac pustego pracownika");

@@ -1,6 +1,7 @@
 #include "VehicleRepositoryImpl.h"
 
-#include <iostream>
+#include <algorithm>
+#include <cctype>
 #include <memory>
 #include <vector>
 #include "../../../domain/common/Exceptions.h"
@@ -46,44 +47,39 @@ void VehicleRepositoryImpl::add(const std::shared_ptr<Vehicle> vehicle) {
         return data;
     }
 
-    void VehicleRepositoryImpl::displayAllVehicles() const {
-        vehicleList_.forEach([&](const std::shared_ptr<Vehicle>& v) {
-            if (v) std::cout << *v << std::endl;
-        });
-    }
-
 std::vector<VehicleData>
 VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
     std::vector<VehicleData> results;
+
+    auto normalize = [](std::string value) {
+        std::transform(value.begin(), value.end(), value.begin(), [](const unsigned char c) {
+            return static_cast<char>(std::toupper(c));
+        });
+
+        return value;
+    };
 
     vehicleList_.forEach([&](const std::shared_ptr<Vehicle>& v) {
         if (v == nullptr) return;
 
         const VehicleData vData = v->getVehicleData();
 
-        // customowy to_upper, zaimplementowany z powodu problemow z wywolaniem wbudowanej funkcji
-        auto to_upper = [](const unsigned char c) { return std::toupper(c); };
+        if (criteria.brand.has_value()) {
+            const auto vehicleBrand = normalize(vData.brand);
+            const auto searchBrand = normalize(criteria.brand.value());
 
-        std::optional<std::string> searchBrand = criteria.brand;
-        std::optional<std::string> searchModel = criteria.model;
-
-        // Resharper z CLion zeby usunac informacje o mozliwosci skorzystania z std::ranges::transform()
-        // ReSharper disable once CppUseRangeAlgorithm
-        if (searchBrand) transform(searchBrand->begin(), searchBrand->end(), searchBrand->begin(),  to_upper);
-        // ReSharper disable once CppUseRangeAlgorithm
-        if (searchModel) transform(searchModel->begin(), searchModel->end(), searchModel->begin(),  to_upper);
-
-
-        //*.find daje mozliwosc partial match
-        // przydaje sie to gdy uzytkownik omylkowo wprowadzi np "BM" zamiast "BMW"
-        if (criteria.brand.has_value() &&
-            vData.brand.find(criteria.brand.value())) {
-            return;
+            if (vehicleBrand.find(searchBrand) == std::string::npos) {
+                return;
+            }
         }
 
-        if (criteria.model.has_value() &&
-            vData.model.find(criteria.model.value())) {
-            return;
+        if (criteria.model.has_value()) {
+            const auto vehicleModel = normalize(vData.model);
+            const auto searchModel = normalize(criteria.model.value());
+
+            if (vehicleModel.find(searchModel) == std::string::npos) {
+                return;
+            }
         }
 
         if (criteria.minYear.has_value() &&
@@ -93,6 +89,16 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
 
         if (criteria.maxYear.has_value() &&
             vData.productionYear > criteria.maxYear.value()) {
+            return;
+        }
+
+        if (criteria.horsePower.has_value() &&
+            vData.horsePower < criteria.horsePower.value()) {
+            return;
+        }
+
+        if (criteria.engineCapacity.has_value() &&
+            vData.engineCapacity != criteria.engineCapacity.value()) {
             return;
         }
 
@@ -106,4 +112,3 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
 
     return results;
 }
-

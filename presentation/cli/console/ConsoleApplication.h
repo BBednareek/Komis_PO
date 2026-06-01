@@ -33,10 +33,10 @@ private:
     void addVehicleFlow() const;
     void removeVehicleFlow() const;
     void markReadyForPickupFlow() const;
-    void releaseReservationFlow(const EmployeeAccount& employee) const;
+    void releaseReservationFlow(EmployeeAccount& employee) const;
 
     static void showEmployeeTasks(const EmployeeAccount& employee);
-    void completeEmployeeTaskFlow(const EmployeeAccount& employee) const;
+    void completeEmployeeTaskFlow(EmployeeAccount& employee) const;
 
     static void printMessage(const std::string& message);
 

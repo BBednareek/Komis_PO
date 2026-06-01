@@ -1,30 +1,6 @@
 #include "Vehicle.h"
-#include <iostream>
 
 #include "../common/Exceptions.h"
-
-namespace vehicle {
-        const char* toString(const FuelType fuelType) {
-                switch (fuelType) {
-                        case FuelType::Petrol: return "benzyna";
-                        case FuelType::Diesel: return "diesel";
-                        case FuelType::Hybrid: return "hybryda";
-                        case FuelType::Electric: return "elektryczny";
-                        case FuelType::LPG: return "lpg";
-                }
-
-                return "nieznany";
-}
-
-        const char* toString(const VehicleStatus status) {
-                switch (status) {
-                        case VehicleStatus::Reserved: return "zarezerwowany";
-                        case VehicleStatus::ReadyForPickup: return "gotowy do odbioru";
-                        case VehicleStatus::ForSale: return "na sprzedaz";
-                }
-                return "nieznany";
-        }
-}
 
 Vehicle::Vehicle(
         std::string         brand,
@@ -77,17 +53,3 @@ VehicleData Vehicle::getVehicleData() const {
 }
 
 [[nodiscard]] bool Vehicle::isAvailableForReservation() const noexcept { return vehicleStatus_ == VehicleStatus::ForSale; }
-
-std::ostream& operator<<(std::ostream& os, const Vehicle& vehicle) {
-        os << vehicle.brand_ << ' ' << vehicle.model_
-        << " | rejestracja: " << vehicle.licensePlate_
-        << " | moc: " << vehicle.horsePower_ << " KM"
-        << " | rok: " << vehicle.productionYear_
-        << " | pojemnosc skokowa: " << vehicle.engineCapacity_
-        << " | paliwo: " << vehicle::toString(vehicle.fuelType_)
-        << " | data waznosci badania okresowego: " << vehicle.expirationDate_
-        << " | status: " << vehicle::toString(vehicle.vehicleStatus_);
-
-        return os;
-
-}
