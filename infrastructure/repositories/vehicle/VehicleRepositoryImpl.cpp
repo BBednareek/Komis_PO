@@ -68,38 +68,36 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
         std::optional<std::string> searchModel = criteria.model;
 
         // Resharper z CLion zeby usunac informacje o mozliwosci skorzystania z std::ranges::transform()
-        // ReSharper disable once CppUseRangeAlgorithm
-        if (searchBrand) transform(searchBrand->begin(), searchBrand->end(), searchBrand->begin(),  to_upper);
-        // ReSharper disable once CppUseRangeAlgorithm
-        if (searchModel) transform(searchModel->begin(), searchModel->end(), searchModel->begin(),  to_upper);
+        // ReSharper disable all CppUseRangeAlgorithm
+        if (searchBrand) std::transform(searchBrand->begin(), searchBrand->end(), searchBrand->begin(),  to_upper);
+        if (searchModel) std::transform(searchModel->begin(), searchModel->end(), searchModel->begin(),  to_upper);
 
+        std::string brand = vData.brand;
+        std::string model = vData.model;
+
+        std::transform(brand.begin(), brand.end(), brand.begin(), to_upper);
+        std::transform(model.begin(), model.end(), model.begin(), to_upper);
 
         //*.find daje mozliwosc partial match
         // przydaje sie to gdy uzytkownik omylkowo wprowadzi np "BM" zamiast "BMW"
-        if (criteria.brand.has_value() &&
-            vData.brand.find(criteria.brand.value())) {
-            return;
-        }
+        if (searchBrand.has_value() &&
+            brand.find(searchBrand.value()) == std::string::npos) return;
 
-        if (criteria.model.has_value() &&
-            vData.model.find(criteria.model.value())) {
-            return;
-        }
+        if (searchModel.has_value() &&
+            model.find(searchModel.value()) == std::string::npos) return;
+
 
         if (criteria.minYear.has_value() &&
-            vData.productionYear < criteria.minYear.value()) {
-            return;
-        }
+            vData.productionYear < criteria.minYear.value()) return;
+
 
         if (criteria.maxYear.has_value() &&
-            vData.productionYear > criteria.maxYear.value()) {
-            return;
-        }
+            vData.productionYear > criteria.maxYear.value()) return;
+
 
         if (criteria.fuelType.has_value() &&
-            vData.fuelType != criteria.fuelType.value()) {
-            return;
-        }
+            vData.fuelType != criteria.fuelType.value()) return;
+
 
         results.push_back(vData);
     });

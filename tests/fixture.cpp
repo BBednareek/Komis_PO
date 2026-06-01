@@ -27,9 +27,6 @@ void generateSampleData(System& system) {
     // CUSTOMERS
     //
 
-    std::ofstream customersFile("customers_credentials.txt");
-
-
     const std::vector<std::string> customerFirstNames = {
         "Jan", "Anna", "Piotr", "Kasia", "Marek",
         "Julia", "Tomasz", "Agnieszka", "Pawel", "Magda"
@@ -83,7 +80,8 @@ void generateSampleData(System& system) {
             lastName,
             city,
             username,
-            password
+            password,
+            static_cast<uint32_t>(cities.size())
         );
 
         system.accounts().addCustomer(customer);

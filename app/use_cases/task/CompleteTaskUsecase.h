@@ -8,7 +8,7 @@ class CompleteTaskUsecase final {
 public:
     explicit CompleteTaskUsecase(TaskRepository& repository);
 
-    void execute(const EmployeeAccount& employee, std::size_t taskIndex) const;
+    void execute(EmployeeAccount& employee, std::size_t taskIndex) const;
 
 private:
     TaskRepository& repository_;

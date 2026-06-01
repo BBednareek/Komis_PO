@@ -10,10 +10,10 @@ add_executable(KomisPO entrypoint/main.cpp
         domain/account/CustomerAccount.h
         domain/account/EmployeeAccount.cpp
         domain/account/EmployeeAccount.h
-        domain/Vehicle/VehicleStatus.h
-        domain/Vehicle/FuelType.h
-        domain/Vehicle/Vehicle.cpp
-        domain/Vehicle/Vehicle.h
+        domain/vehicle/VehicleStatus.h
+        domain/vehicle/FuelType.h
+        domain/vehicle/Vehicle.cpp
+        domain/vehicle/Vehicle.h
         domain/task/Task.cpp
         domain/task/Task.h
         domain/task/TaskStatus.h
@@ -54,10 +54,10 @@ add_executable(KomisPO entrypoint/main.cpp
         app/use_cases/task/CompleteTaskUsecase.cpp
         app/use_cases/task/CompleteTaskUsecase.h
         tests/fixture.h
-        "tests/fixture.cpp"
+        tests/fixture.cpp
         app/services/taskGenerator/TaskGenerator.cpp
         app/services/taskGenerator/TaskGenerator.h
-        app/services/taskGenerator/taskTemplate.h
+        app/services/taskGenerator/TaskTemplate.h
         domain/vehicle/VehicleSearchCriteria.h
         app/use_cases/vehicle/search/SearchVehicleUsecase.cpp
         app/use_cases/vehicle/search/SearchVehicleUsecase.h

@@ -123,6 +123,16 @@ void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) 
                 case CustomerAction::SearchVehicle:
                     searchVehicles();
                     break;
+                case CustomerAction::CollectVehicle:
+                    //TODO
+                    break;
+
+                case CustomerAction::ShowData:
+                    break;
+
+                case CustomerAction::ChangeAddress:
+                    break;
+
                 case CustomerAction::Logout:
                     account -> logout();
                     loggedIn = false;
@@ -136,7 +146,7 @@ void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) 
     }
 }
 void ConsoleApplication::employeePanel(const std::shared_ptr<Account>& account) const {
-    const auto& employee = requireEmployeeAccount(account);
+    auto& employee = requireEmployeeAccount(account);
     bool loggedIn = true;
 
     while (loggedIn) {
@@ -203,8 +213,8 @@ void ConsoleApplication::reserveVehicleFlow(const CustomerAccount& customer) con
 }
 
 void ConsoleApplication::addVehicleFlow() const {
-    const auto model = Menu::prompt("Marka: ");
-    const auto brand = Menu::prompt("Model: ");
+    const auto brand = Menu::prompt("Marka: ");
+    const auto model = Menu::prompt("Model: ");
     const auto licensePlate = Menu::prompt("Numer rejestracyjny: ");
     const auto horsePower = readUnsigned("Moc (KM): ");
     const auto productionDate = readUnsigned("Rok produkcji: ");
@@ -240,7 +250,7 @@ void ConsoleApplication::removeVehicleFlow() const {
     printMessage("Operacja usuniecia zostala wykonana");
 }
 void ConsoleApplication::markReadyForPickupFlow() const {
-    const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu do usuniecia: ");
+    const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu do oznaczenia jako gotowy do odbioru: ");
     markVehicleReadyForPickupUseCase_.execute(licensePlate);
     printMessage("Pojazd oznaczono jako gotowy do odbioru");
 }
@@ -296,11 +306,7 @@ void ConsoleApplication::searchVehicles() const {
 
     std::cout << "Pojemnosc silnika: ";
     if (std::getline(std::cin, customerInput) && !customerInput.empty())
-        vehicleSearchCriteria.engineCapacity.emplace(static_cast<std::uint32_t>(std::stod(customerInput)));
-
-    std::cout << "Minimalna ilosc koni mechanicznych: ";
-    if (std::getline(std::cin, customerInput) && !customerInput.empty())
-        vehicleSearchCriteria.horsePower.emplace(static_cast<std::uint32_t>(std::stoul(customerInput)));
+        vehicleSearchCriteria.engineCapacity.emplace(std::stod(customerInput));
 
     const std::vector<VehicleData> result = searchVehicleUseCase_.execute(vehicleSearchCriteria);
 
@@ -324,7 +330,7 @@ void ConsoleApplication::searchVehicles() const {
     }
 }
 
-void ConsoleApplication::completeEmployeeTaskFlow(const EmployeeAccount& employee) const    {
+void ConsoleApplication::completeEmployeeTaskFlow(EmployeeAccount& employee) const {
     showEmployeeTasks(employee);
 
     const auto taskIndex = readUnsigned("Podaj numer zadania do zakonczenia: ");
@@ -344,6 +350,7 @@ void ConsoleApplication::printMessage(const std::string& message) {
 
     return *customer;
 }
+
 [[nodiscard]] EmployeeAccount& ConsoleApplication::requireEmployeeAccount(const std::shared_ptr<Account>& account) {
     const auto customer = std::dynamic_pointer_cast<EmployeeAccount>(account);
     if (customer == nullptr) throw AuthenticationException("Zalogowane konto nie jest kontem pracownika");

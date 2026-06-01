@@ -10,7 +10,6 @@ struct VehicleSearchCriteria {
     std::optional<std::string> model;
     std::optional<std::uint32_t> minYear;
     std::optional<std::uint32_t> maxYear;
-    std::optional<std::uint32_t> horsePower;
     std::optional<double> engineCapacity;
     std::optional<FuelType> fuelType;
 };

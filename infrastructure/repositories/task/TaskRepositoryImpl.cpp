@@ -7,7 +7,7 @@ void TaskRepositoryImpl::add(const std::shared_ptr<Task>& task)  { taskList_.pus
 
 void TaskRepositoryImpl::removeCompleted()  {
     taskList_.removeIf([&](const std::shared_ptr<Task>& t) {
-        return t -> getTaskStatus() == TaskStatus::Completed || t -> getAssignedVehicle().lock()->getVehicleStatus() == VehicleStatus::ForSale;
+        return t && t -> getTaskStatus() == TaskStatus::Completed;
     });
 }
 

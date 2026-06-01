@@ -2,7 +2,7 @@
 #define KOMISPO_EMPLOYEEACCOUNT_H
 
 #include "Account.h"
-#include "../Task/Task.h"
+#include "../task/Task.h"
 #include <vector>
 
 class EmployeeAccount final : public Account {
@@ -17,7 +17,7 @@ public:
     );
 
     void assignTask(const std::shared_ptr<Task>& task);
-    void completeTask(std::size_t index) const;
+    void completeTask(std::size_t index);
 
     [[nodiscard]] std::uint32_t getEmployeeId() const noexcept;
     [[nodiscard]] const std::string& getFirstName() const noexcept;
