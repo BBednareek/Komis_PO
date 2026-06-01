@@ -6,7 +6,7 @@ namespace {
     const char* toString(const TaskStatus status) {
         switch (status) {
             case TaskStatus::Pending: return "oczekujace";
-            case TaskStatus::Completed: return "completed";
+            case TaskStatus::Completed: return "wykonane";
         }
 
         return "nieznany";

@@ -6,7 +6,7 @@
 
 void AccountRepositoryImpl::addEmployee(const std::shared_ptr<EmployeeAccount> account) {
     if (account == nullptr) throw ValidationException("Nie mozna dodac pustego pracownika");
-    if (static_cast<int>(getAllEmployees().size()) >= employeeConstraint) throw ValidationException("Osiagnieto limit pracownikow");
+    if (static_cast<uint32_t>(getAllEmployees().size()) >= employeeConstraint) throw ValidationException("Osiagnieto limit pracownikow");
 
     const auto existingAccount = employeeAccountList_.findData([&](const std::shared_ptr<EmployeeAccount>& candidate) {
        return candidate != nullptr && candidate -> getLogin() == account -> getLogin();
@@ -19,7 +19,7 @@ void AccountRepositoryImpl::addEmployee(const std::shared_ptr<EmployeeAccount> a
 
 void AccountRepositoryImpl::addCustomer(const std::shared_ptr<CustomerAccount> account) {
     if (account == nullptr) throw ValidationException("Nie mozna dodac pustego konsumenta");
-    if (static_cast<int>(getAllCustomers().size()) >= customerConstraint) throw ValidationException("Osiagnieto limit konsumentow");
+    if (static_cast<uint32_t>(getAllCustomers().size()) >= customerConstraint) throw ValidationException("Osiagnieto limit konsumentow");
 
     const auto existingAccount = customerAccountList_.findData([&](const std::shared_ptr<CustomerAccount>& candidate) {
        return candidate != nullptr && candidate -> getLogin() == account -> getLogin();

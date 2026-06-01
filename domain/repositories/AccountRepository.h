@@ -8,8 +8,8 @@
 
 class AccountRepository {
 public:
-    const int employeeConstraint { 10 };
-    const int customerConstraint { 200 };
+    const uint32_t employeeConstraint { 10 };
+    const uint32_t customerConstraint { 200 };
 
     virtual ~AccountRepository() = default;
 

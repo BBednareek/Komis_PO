@@ -37,7 +37,7 @@ EmployeeAction Menu::promptEmployeeAction() {
     std::cout   << "\n=== PANEL PRACOWNIKA ===\n"
                 << "1. Lista pojazdow\n"
                 << "2. Dodaj pojazd\n"
-                << "3. Usun pojazdow\n"
+                << "3. Usun pojazd\n"
                 << "4. Oznacz pojazd jako gotowy do odbioru\n"
                 << "5. Zwolnij rezerwacje pojazdu\n"
                 << "6. Lista zadan\n"

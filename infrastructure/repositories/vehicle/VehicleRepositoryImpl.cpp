@@ -106,3 +106,4 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
 
     return results;
 }
+

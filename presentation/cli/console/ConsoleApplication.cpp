@@ -148,7 +148,7 @@ void ConsoleApplication::employeePanel(const std::shared_ptr<Account>& account) 
                 case EmployeeAction::AddVehicle:
                     addVehicleFlow();
                     break;
-                    case EmployeeAction::RemoveVehicle:
+                case EmployeeAction::RemoveVehicle:
                     removeVehicleFlow();
                     break;
                 case EmployeeAction::MarkReadyForPickup:
