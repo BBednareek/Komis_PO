@@ -27,8 +27,7 @@ CustomerAction Menu::promptCustomerAction() {
                 << "2. Rezerwuj pojazd\n"
                 << "3. Wyszukaj pojazd\n"
                 << "4. Odbierz pojazd\n"
-                << "5. Pokaz zarezerwowane pojazdy\n"
-                << "6. Pokaz dane klienta\n"
+                << "5. Pokaz dane klienta\n"
                 << "0. Wyloguj\n"
                 << "Wybor: ";
 

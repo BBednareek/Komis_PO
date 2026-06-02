@@ -170,10 +170,6 @@ void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) 
                     }
                     collectVehicleFlow(customer);
                     break;
-
-                case CustomerAction::ShowReserved:
-                    showReservedVehicles(*customer);
-                    break;
                 case CustomerAction::ShowData:
                     showCustomerData(*customer);
                     break;
@@ -264,14 +260,26 @@ void ConsoleApplication::reserveVehicleFlow(const std::shared_ptr<CustomerAccoun
 }
 
 void ConsoleApplication::collectVehicleFlow(const std::shared_ptr<CustomerAccount>& customer) const {
-    showVehicles();
-    const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu do odbioru: ");
+    const auto vehicles = customer -> getReservedVehicleList();
+    bool found = false;
+
+    for (const auto& vehicle : vehicles) {
+        if (vehicle == nullptr) continue;
+
+        if (vehicle -> getVehicleStatus() != VehicleStatus::ReadyForPickup) continue;
+
+        found = true;
+
+        const auto data = vehicle -> getVehicleData();
+
+        printVehicle(data);
+    }
+
+    if (!found) {printMessage("Brak pojazdow gotowych do odbioru"); return;}
+
+    const auto licensePlate = Menu::prompt("\nPodaj numer rejestracyjny pojazdu do odbioru: ");
     collectVehicleUseCase_.execute(customer, licensePlate);
     printMessage("Pojazd zostal odebrany przez kupujacego");
-}
-
-bool ConsoleApplication::showReservedVehicles(const CustomerAccount& customer) const {
-
 }
 
 bool ConsoleApplication::canCollectVehicle(const CustomerAccount& customer) const {

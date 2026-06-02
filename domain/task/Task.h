@@ -28,6 +28,7 @@ public:
     [[nodiscard]] const std::string& getAssignedVehicleLicensePlate() const;
     [[nodiscard]] const std::string& getAssignedCustomerName() const;
     [[nodiscard]] const TaskStatus& getTaskStatus() const;
+    [[nodiscard]] const std::weak_ptr<Vehicle>& getVehicle() const noexcept;
 
     void markReadyForPickup();
     void complete();

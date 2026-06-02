@@ -14,11 +14,11 @@ void CollectVehicleUsecase::execute(const std::shared_ptr<CustomerAccount>& cust
     if (customer == nullptr) throw ValidationException("Nie mozna odebrac pojazdu bez zalogowanego kupujacego");
 
     const auto vehicle = vehicleRepository_.findByRegistration(licensePlate);
-    if (vehicle->getVehicleStatus() != VehicleStatus::ReadyForPickup) {
-        throw VehicleException("Pojazd nie jest gotowy do odbioru");
-    }
+
+    if (vehicle->getVehicleStatus() != VehicleStatus::ReadyForPickup) throw VehicleException("Pojazd nie jest gotowy do odbioru");
 
     std::shared_ptr<Task> matchingTask = nullptr;
+
     for (const auto& task : taskRepository_.getAllTasks()) {
         if (task == nullptr) continue;
         if (task->getAssignedVehicleLicensePlate() != licensePlate) continue;
@@ -26,17 +26,17 @@ void CollectVehicleUsecase::execute(const std::shared_ptr<CustomerAccount>& cust
 
         const auto assignedCustomer = task->getAssignedCustomer().lock();
         if (assignedCustomer == nullptr) continue;
-        if (assignedCustomer->getLogin() != customer->getLogin()) continue;
-
-        matchingTask = task;
-        break;
+        if (assignedCustomer == customer) {
+            matchingTask = task;
+            break;
+        }
     }
 
-    if (matchingTask == nullptr) {
-        throw AuthenticationException("Tylko przypisany kupujacy moze odebrac ten pojazd");
-    }
+    if (matchingTask == nullptr) throw AuthenticationException("Tylko przypisany kupujacy moze odebrac ten pojazd");
 
     matchingTask->complete();
+
+    customer->removeReservedVehicle(std::string{licensePlate});
     vehicleRepository_.remove(licensePlate);
     customer->incrementPurchasedVehicles();
 }

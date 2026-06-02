@@ -26,9 +26,10 @@ Task::Task(
 [[nodiscard]] const std::string& Task::getAssignedVehicleLicensePlate() const { return assignedVehicleLicensePlate_; }
 [[nodiscard]] const std::string& Task::getAssignedCustomerName() const { return assignedCustomerName_; }
 [[nodiscard]] const TaskStatus& Task::getTaskStatus() const { return status_; }
+[[nodiscard]] const std::weak_ptr<Vehicle>& Task::getVehicle() const noexcept { return vehicle_; }
+
 
 void Task::markReadyForPickup() {
-    if (status_ != TaskStatus::Pending) throw TaskException("Tylko oczekujace zadanie moze zostac oznaczone jako gotowe do odbioru");
     status_ = TaskStatus::ReadyForPickup;
 }
 

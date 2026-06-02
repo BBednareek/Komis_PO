@@ -13,7 +13,7 @@ void MarkVehicleReadyForPickupUsecase::execute(const std::string_view licensePla
     for (const auto& task : taskRepository_.getAllTasks()) {
         if (task == nullptr) continue;
         if (task->getAssignedVehicleLicensePlate() != licensePlate) continue;
-        if (task->getTaskStatus() != TaskStatus::Pending) continue;
+        if (task->getTaskStatus() != TaskStatus::Completed) continue;
 
         matchingTask = task;
         break;

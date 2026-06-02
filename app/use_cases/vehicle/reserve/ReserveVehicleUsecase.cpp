@@ -19,6 +19,7 @@ void ReserveVehicleUsecase::execute(const std::shared_ptr<CustomerAccount>& cust
     const auto vehicle  = vehicleRepository_.findByRegistration(licensePlate);
 
     vehicle -> reserve();
+    customer->addReservedVehicle(vehicle);
 
     const auto [name, description] =
     TaskGenerator::generateReservationTask(customer->getFullName());

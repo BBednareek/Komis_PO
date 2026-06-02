@@ -14,8 +14,7 @@ enum class CustomerAction : std::uint8_t {
     ReserveVehicle  = 2,
     SearchVehicle   = 3,
     CollectVehicle  = 4,
-    ShowReserved    = 5,
-    ShowData        = 6,
+    ShowData        = 5,
     Logout          = 0,
 };
 
