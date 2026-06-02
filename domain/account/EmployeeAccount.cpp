@@ -39,8 +39,6 @@ void EmployeeAccount::completeTasksForVehicle(const std::string_view licensePlat
 }
 
 [[nodiscard]] std::uint32_t EmployeeAccount::getEmployeeId() const noexcept { return employeeId_; }
-[[nodiscard]] const std::string& EmployeeAccount::getFirstName() const noexcept { return name_; }
-[[nodiscard]] const std::string& EmployeeAccount::getLastName() const noexcept { return surname_; }
 [[nodiscard]] std::string EmployeeAccount::getFullName() const noexcept { return name_ + ' ' + surname_; }
 [[nodiscard]] std::uint32_t EmployeeAccount::getPendingTaskCount() const noexcept {
         std::uint32_t pendingTask {0};

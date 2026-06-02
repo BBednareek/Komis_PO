@@ -170,6 +170,10 @@ void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) 
                     }
                     collectVehicleFlow(customer);
                     break;
+
+                case CustomerAction::ShowReserved:
+                    showReservedVehicles(*customer);
+                    break;
                 case CustomerAction::ShowData:
                     showCustomerData(*customer);
                     break;
@@ -241,14 +245,12 @@ void ConsoleApplication::showVehicles() const {
         printVehicle(vehicle);
     }
 }
-// ReSharper disable once CppMemberFunctionMayBeStatic
 void ConsoleApplication::showCustomerData(const CustomerAccount& customer) const {
     std::cout << "\n=== DANE KLIENTA ===\n";
     std::cout << "Imie i nazwisko: " << customer.getFullName() << '\n';
     std::cout << "Adres: " << customer.getAddress() << '\n';
 }
 
-// ReSharper disable once CppMemberFunctionMayBeStatic
 void ConsoleApplication::showEmployeeData(const EmployeeAccount& employee) const {
     std::cout << "\n=== DANE PRACOWNIKA ===\n";
     std::cout << "Imie i nazwisko: " << employee.getFullName() << '\n';
@@ -266,6 +268,10 @@ void ConsoleApplication::collectVehicleFlow(const std::shared_ptr<CustomerAccoun
     const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu do odbioru: ");
     collectVehicleUseCase_.execute(customer, licensePlate);
     printMessage("Pojazd zostal odebrany przez kupujacego");
+}
+
+bool ConsoleApplication::showReservedVehicles(const CustomerAccount& customer) const {
+
 }
 
 bool ConsoleApplication::canCollectVehicle(const CustomerAccount& customer) const {

@@ -15,7 +15,6 @@ MainAction Menu::promptMainAction() {
     std::cout   << "\n=== KOMIS SAMOCHODOWY ===\n"
                 << "1. Logowanie klienta\n"
                 << "2. Logowanie pracownika\n"
-                << "3. Lista pojazdow\n"
                 << "0. Wyjscie\n"
                 << "Wybor: ";
 
@@ -28,6 +27,8 @@ CustomerAction Menu::promptCustomerAction() {
                 << "2. Rezerwuj pojazd\n"
                 << "3. Wyszukaj pojazd\n"
                 << "4. Odbierz pojazd\n"
+                << "5. Pokaz zarezerwowane pojazdy\n"
+                << "6. Pokaz dane klienta\n"
                 << "0. Wyloguj\n"
                 << "Wybor: ";
 
@@ -43,6 +44,7 @@ EmployeeAction Menu::promptEmployeeAction() {
                 << "5. Zwolnij rezerwacje pojazdu\n"
                 << "6. Lista zadan\n"
                 << "7. Oznacz zadanie jako wykonane\n"
+                << "8. Pokaz dane pracownika\n"
                 << "0. Wyloguj\n"
                 << "Wybor: ";
 

@@ -21,9 +21,5 @@ CustomerAccount::CustomerAccount(
     purchasedVehiclesCount_(0){}
 
 void CustomerAccount::incrementPurchasedVehicles() noexcept { ++purchasedVehiclesCount_; }
-
-const std::string &CustomerAccount::getFirstName() const noexcept { return firstName_; }
-const std::string &CustomerAccount::getLastName() const noexcept { return lastName_; }
 const std::string &CustomerAccount::getAddress() const noexcept { return address_; }
 std::string CustomerAccount::getFullName() const { return firstName_ + ' ' + lastName_; }
-std::uint32_t CustomerAccount::getPurchasedVehiclesCount() const noexcept { return purchasedVehiclesCount_; }

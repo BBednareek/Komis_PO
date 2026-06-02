@@ -22,7 +22,6 @@ Task::Task(
 
 [[nodiscard]] const std::string& Task::getTaskName() const { return taskName_; }
 [[nodiscard]] const std::string& Task::getTaskDescription() const { return taskDescription_; }
-[[nodiscard]] const std::weak_ptr<Vehicle>& Task::getAssignedVehicle() const { return vehicle_; }
 [[nodiscard]] const std::weak_ptr<CustomerAccount>& Task::getAssignedCustomer() const { return customer_; }
 [[nodiscard]] const std::string& Task::getAssignedVehicleLicensePlate() const { return assignedVehicleLicensePlate_; }
 [[nodiscard]] const std::string& Task::getAssignedCustomerName() const { return assignedCustomerName_; }

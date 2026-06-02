@@ -10,8 +10,10 @@ Vehicle::Vehicle(
         const std::uint32_t productionYear,
         std::string         expirationDate, //Data wygasniecia badan okresowych
         const double        engineCapacity,
-        const FuelType      fuelType
+        const FuelType      fuelType,
+        const std::shared_ptr<CustomerAccount>& customer
         ) :
+        customer_(customer),
         brand_(std::move(brand)),
         model_(std::move(model)),
         licensePlate_(std::move(licensePlate)),
@@ -34,6 +36,9 @@ void Vehicle::release() {
         if (vehicleStatus_ == VehicleStatus::ForSale) throw VehicleException("Pojazd jest juz dostepny na sprzedaz");
         vehicleStatus_ = VehicleStatus::ForSale;
 }
+
+const std::weak_ptr<CustomerAccount>& Vehicle::getAssignedCustomer() const { return customer_; }
+
 
 const std::string &Vehicle::getLicensePlate() const noexcept { return licensePlate_; }
 VehicleStatus Vehicle::getVehicleStatus() const noexcept { return vehicleStatus_; }
