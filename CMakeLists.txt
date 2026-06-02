@@ -38,6 +38,8 @@ add_executable(KomisPO entrypoint/main.cpp
         app/use_cases/auth/employee/EmployeeLoginUsecase.h
         app/use_cases/vehicle/reserve/ReserveVehicleUsecase.cpp
         app/use_cases/vehicle/reserve/ReserveVehicleUsecase.h
+        app/use_cases/vehicle/collect/CollectVehicleUsecase.cpp
+        app/use_cases/vehicle/collect/CollectVehicleUsecase.h
         app/services/System.cpp
         app/services/System.h
         infrastructure/repositories/account/AccountRepositoryImpl.h

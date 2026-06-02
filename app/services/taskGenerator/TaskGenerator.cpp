@@ -6,36 +6,26 @@
 TaskTemplate TaskGenerator::generateReservationTask(
     const std::string& customerName
 ) {
-
     static const std::vector<TaskTemplate> templates = {
-
         {
             "Przygotowanie pojazdu",
-            "Przygotuj pojazd dla klienta " + customerName
+            "Przygotuj pojazd dla klienta "
         },
-
         {
             "Kontakt z klientem",
-            "Skontaktuj sie z klientem " + customerName +
-            " w sprawie odbioru pojazdu"
+            "Skontaktuj sie z klientem "
         },
-
         {
             "Kontrola techniczna",
-            "Wykonaj kontrole pojazdu przed odbiorem przez klienta " +
-            customerName
+            "Wykonaj kontrole pojazdu przed odbiorem przez klienta "
         },
-
         {
             "Mycie pojazdu",
-            "Wyczysc i przygotuj pojazd dla klienta " +
-            customerName
+            "Wyczysc i przygotuj pojazd dla klienta "
         },
-
         {
             "Weryfikacja dokumentow",
-            "Sprawdz dokumentacje pojazdu przed wydaniem klientowi " +
-            customerName
+            "Sprawdz dokumentacje pojazdu przed wydaniem klientowi "
         }
     };
 
@@ -47,5 +37,9 @@ TaskTemplate TaskGenerator::generateReservationTask(
         static_cast<int>(templates.size()) - 1
     );
 
-    return templates[dist(gen)];
+    const auto& templateData = templates[dist(gen)];
+    return {
+        templateData.name,
+        templateData.description + customerName
+    };
 }

@@ -6,7 +6,6 @@
 enum class MainAction : std::uint8_t {
     CustomerLogin   = 1,
     EmployeeLogin   = 2,
-    ShowVehicles    = 3,
     Exit            = 0
 };
 
@@ -16,7 +15,6 @@ enum class CustomerAction : std::uint8_t {
     SearchVehicle   = 3,
     CollectVehicle  = 4,
     ShowData        = 5,
-    ChangeAddress   = 6,
     Logout          = 0,
 };
 
@@ -39,7 +37,6 @@ public:
     static        EmployeeAction promptEmployeeAction() ;
 
     static std::string prompt(const std::string& label) ;
-    static void waitForEnter() ;
 
 private:
     static int readInt() ;

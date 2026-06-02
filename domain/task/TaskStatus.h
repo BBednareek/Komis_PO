@@ -5,7 +5,9 @@
 
 enum class TaskStatus {
     Pending,
-    Completed
+    ReadyForPickup,
+    Completed,
+    Cancelled
 };
 
 #endif //KOMISPO_TASKSTATUS_H

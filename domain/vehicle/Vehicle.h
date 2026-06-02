@@ -23,7 +23,6 @@ public:
 
     [[nodiscard]] const std::string& getLicensePlate() const noexcept;
     [[nodiscard]] VehicleStatus getVehicleStatus() const noexcept;
-    [[nodiscard]] std::string getVehicleName() const;
     void reserve();
     void markReadyForPickup();
     void release();

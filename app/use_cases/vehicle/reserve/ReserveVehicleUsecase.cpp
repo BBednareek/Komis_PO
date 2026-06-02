@@ -12,20 +12,22 @@ ReserveVehicleUsecase::ReserveVehicleUsecase(
     taskRepository_(taskRepository),
     accountRepository_(accountRepository) {}
 
-void ReserveVehicleUsecase::execute(const CustomerAccount& customer, const std::string_view licensePlate) const {
+void ReserveVehicleUsecase::execute(const std::shared_ptr<CustomerAccount>& customer, const std::string_view licensePlate) const {
+    if (customer == nullptr) throw ValidationException("Nie mozna utworzyc rezerwacji dla pustego kupujacego");
+
     const auto employee = findAvailableEmployees();
     const auto vehicle  = vehicleRepository_.findByRegistration(licensePlate);
 
     vehicle -> reserve();
 
     const auto [name, description] =
-    TaskGenerator::generateReservationTask(customer.getFullName());
+    TaskGenerator::generateReservationTask(customer->getFullName());
 
     const auto task = std::make_shared<Task>(
-
         name,
         description,
         vehicle,
+        customer,
         TaskStatus::Pending
     );
 

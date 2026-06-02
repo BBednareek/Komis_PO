@@ -36,7 +36,6 @@ void Vehicle::release() {
 }
 
 const std::string &Vehicle::getLicensePlate() const noexcept { return licensePlate_; }
-std::string Vehicle::getVehicleName() const { return brand_ + model_; }
 VehicleStatus Vehicle::getVehicleStatus() const noexcept { return vehicleStatus_; }
 VehicleData Vehicle::getVehicleData() const {
         return VehicleData {

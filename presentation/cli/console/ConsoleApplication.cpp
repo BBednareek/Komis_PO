@@ -5,6 +5,7 @@
 #include <chrono>
 
 #include "../../../domain/common/Exceptions.h"
+#include "../../../domain/task/Task.h"
 
 namespace {
     const char* toString(const FuelType fuelType) {
@@ -31,7 +32,9 @@ namespace {
     const char* toString(const TaskStatus status) {
         switch (status) {
             case TaskStatus::Pending: return "oczekujace";
+            case TaskStatus::ReadyForPickup: return "gotowe do odbioru";
             case TaskStatus::Completed: return "wykonane";
+            case TaskStatus::Cancelled: return "anulowane";
         }
 
         return "nieznany";
@@ -66,8 +69,9 @@ namespace {
         << " | status: "
         << toString(task.getTaskStatus());
 
-        if (const auto vehicle = task.getAssignedVehicle().lock()) {
-            std::cout << " | pojazd: " << vehicle->getLicensePlate();
+        std::cout << " | pojazd: " << task.getAssignedVehicleLicensePlate();
+        if (!task.getAssignedCustomerName().empty()) {
+            std::cout << " | kupujacy: " << task.getAssignedCustomerName();
         }
 
         std::cout << '\n';
@@ -82,11 +86,12 @@ ConsoleApplication::ConsoleApplication(System& system) :
         completeTaskUseCase_(),
         addVehicleUseCase_(system.vehicles()),
         removeVehicleUseCase_(system.vehicles()),
-        markVehicleReadyForPickupUseCase_(system.vehicles()),
+        markVehicleReadyForPickupUseCase_(system.vehicles(), system.tasks()),
         releaseVehicleReservationUseCase_(system.vehicles()),
         reserveVehicleUseCase_(system.vehicles(),
                                system.accounts(),
-                               system.tasks()) {}
+                               system.tasks()),
+        collectVehicleUseCase_(system.vehicles(), system.tasks()) {}
 
 void ConsoleApplication::run() const {
     bool running = true;
@@ -118,9 +123,6 @@ void ConsoleApplication::handleMainAction(const MainAction action) const {
             handleEmployeeLogin();
             break;
 
-        case MainAction::ShowVehicles:
-            showVehicles();
-            break;
         case MainAction::Exit:
             break;
         default:
@@ -146,7 +148,7 @@ void ConsoleApplication::handleEmployeeLogin() const {
 }
 
 void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) const {
-    const auto& customer = requireCustomerAccount(account);
+    const auto customer = requireCustomerAccount(account);
     bool loggedIn = true;
 
     while (loggedIn) {
@@ -160,6 +162,16 @@ void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) 
                     break;
                 case CustomerAction::SearchVehicle:
                     searchVehicles();
+                    break;
+                case CustomerAction::CollectVehicle:
+                    if (!canCollectVehicle(*customer)) {
+                        printMessage("Nie masz aktualnie zadnego pojazdu gotowego do odbioru");
+                        break;
+                    }
+                    collectVehicleFlow(customer);
+                    break;
+                case CustomerAction::ShowData:
+                    showCustomerData(*customer);
                     break;
                 case CustomerAction::Logout:
                     account -> logout();
@@ -190,7 +202,7 @@ void ConsoleApplication::employeePanel(const std::shared_ptr<Account>& account) 
                     removeVehicleFlow();
                     break;
                 case EmployeeAction::MarkReadyForPickup:
-                    markReadyForPickupFlow();
+                    markReadyForPickupFlow(employee);
                     break;
                 case EmployeeAction::ReleaseReservation:
                     releaseReservationFlow(employee);
@@ -200,6 +212,9 @@ void ConsoleApplication::employeePanel(const std::shared_ptr<Account>& account) 
                     break;
                 case EmployeeAction::CompleteTask:
                     completeEmployeeTaskFlow(employee);
+                    break;
+                case EmployeeAction::ShowEmployeeData:
+                    showEmployeeData(employee);
                     break;
                 case EmployeeAction::Logout:
                     account -> logout();
@@ -226,15 +241,53 @@ void ConsoleApplication::showVehicles() const {
         printVehicle(vehicle);
     }
 }
-void ConsoleApplication::reserveVehicleFlow(const CustomerAccount& customer) const {
+// ReSharper disable once CppMemberFunctionMayBeStatic
+void ConsoleApplication::showCustomerData(const CustomerAccount& customer) const {
+    std::cout << "\n=== DANE KLIENTA ===\n";
+    std::cout << "Imie i nazwisko: " << customer.getFullName() << '\n';
+    std::cout << "Adres: " << customer.getAddress() << '\n';
+}
+
+// ReSharper disable once CppMemberFunctionMayBeStatic
+void ConsoleApplication::showEmployeeData(const EmployeeAccount& employee) const {
+    std::cout << "\n=== DANE PRACOWNIKA ===\n";
+    std::cout << "Imie i nazwisko: " << employee.getFullName() << '\n';
+}
+
+void ConsoleApplication::reserveVehicleFlow(const std::shared_ptr<CustomerAccount>& customer) const {
+    showVehicles();
     const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu: ");
     reserveVehicleUseCase_.execute(customer, licensePlate);
     printMessage("Pojazd zostal zarezerwowany i przekazany do obslugi pracownika");
 }
 
+void ConsoleApplication::collectVehicleFlow(const std::shared_ptr<CustomerAccount>& customer) const {
+    showVehicles();
+    const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu do odbioru: ");
+    collectVehicleUseCase_.execute(customer, licensePlate);
+    printMessage("Pojazd zostal odebrany przez kupujacego");
+}
+
+bool ConsoleApplication::canCollectVehicle(const CustomerAccount& customer) const {
+    for (const auto& task : system_.tasks().getAllTasks()) {
+        if (task == nullptr) continue;
+        if (task->getTaskStatus() != TaskStatus::ReadyForPickup) continue;
+        if (task->getAssignedCustomerName().empty()) continue;
+        if (task->getAssignedCustomer().expired()) continue;
+
+        const auto assignedCustomer = task->getAssignedCustomer().lock();
+        if (assignedCustomer == nullptr) continue;
+        if (assignedCustomer->getLogin() != customer.getLogin()) continue;
+
+        return true;
+    }
+
+    return false;
+}
+
 void ConsoleApplication::addVehicleFlow() const {
-    const auto model = Menu::prompt("Marka: ");
-    const auto brand = Menu::prompt("Model: ");
+    const auto brand = Menu::prompt("Marka: ");
+    const auto model = Menu::prompt("Model: ");
     const auto licensePlate = Menu::prompt("Numer rejestracyjny: ");
     const auto horsePower = readUnsigned("Moc (KM): ");
     const auto productionDate = readUnsigned("Rok produkcji: ");
@@ -269,8 +322,9 @@ void ConsoleApplication::removeVehicleFlow() const {
     removeVehicleUseCase_.execute(licensePlate);
     printMessage("Operacja usuniecia zostala wykonana");
 }
-void ConsoleApplication::markReadyForPickupFlow() const {
-    const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu do usuniecia: ");
+void ConsoleApplication::markReadyForPickupFlow(const EmployeeAccount& employee) const {
+    showEmployeeTasks(employee);
+    const auto licensePlate = Menu::prompt("Podaj numer rejestracyjny pojazdu do oznaczenia jako gotowy do odbioru: ");
     markVehicleReadyForPickupUseCase_.execute(licensePlate);
     printMessage("Pojazd oznaczono jako gotowy do odbioru");
 }
@@ -348,11 +402,11 @@ void ConsoleApplication::printMessage(const std::string& message) {
     std::cout << "\n" << message << "\n";
 }
 
-[[nodiscard]] CustomerAccount& ConsoleApplication::requireCustomerAccount(const std::shared_ptr<Account>& account) {
+[[nodiscard]] std::shared_ptr<CustomerAccount> ConsoleApplication::requireCustomerAccount(const std::shared_ptr<Account>& account) {
     const auto customer = std::dynamic_pointer_cast<CustomerAccount>(account);
     if (customer == nullptr) throw AuthenticationException("Zalogowane konto nie jest kontem klienta");
 
-    return *customer;
+    return customer;
 }
 [[nodiscard]] EmployeeAccount& ConsoleApplication::requireEmployeeAccount(const std::shared_ptr<Account>& account) {
     const auto customer = std::dynamic_pointer_cast<EmployeeAccount>(account);
@@ -370,4 +424,3 @@ void ConsoleApplication::printMessage(const std::string& message) {
     const auto value = Menu::prompt(label);
     return static_cast<std::uint32_t>(std::stoul(value));
 }
-

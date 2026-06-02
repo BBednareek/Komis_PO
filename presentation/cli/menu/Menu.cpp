@@ -16,7 +16,6 @@ MainAction Menu::promptMainAction() {
                 << "1. Logowanie klienta\n"
                 << "2. Logowanie pracownika\n"
                 << "3. Lista pojazdow\n"
-                << "4. Wyczyść dane\n"
                 << "0. Wyjscie\n"
                 << "Wybor: ";
 
@@ -28,6 +27,7 @@ CustomerAction Menu::promptCustomerAction() {
                 << "1. Lista pojazdow\n"
                 << "2. Rezerwuj pojazd\n"
                 << "3. Wyszukaj pojazd\n"
+                << "4. Odbierz pojazd\n"
                 << "0. Wyloguj\n"
                 << "Wybor: ";
 
@@ -57,11 +57,6 @@ std::string Menu::prompt(const std::string &label) {
     return value;
 }
 
-void Menu::waitForEnter() {
-    std::cout << "\nNacisnij Enter, aby kontynuowac...";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-}
-
 int Menu::readInt() {
     int choice = 0;
 
@@ -72,4 +67,3 @@ int Menu::readInt() {
     clearInput();
     return choice;
 }
-

@@ -14,7 +14,7 @@ public:
         TaskRepository&     taskRepository
         );
 
-    void execute(const CustomerAccount& customer, std::string_view licensePlate) const;
+    void execute(const std::shared_ptr<CustomerAccount>& customer, std::string_view licensePlate) const;
 
 private:
     [[nodiscard]] std::shared_ptr<EmployeeAccount> findAvailableEmployees() const;

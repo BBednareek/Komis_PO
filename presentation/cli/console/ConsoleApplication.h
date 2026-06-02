@@ -15,6 +15,7 @@
 #include "../../../app/use_cases/vehicle/markReady/MarkVehicleReadyForPickupUsecase.h"
 #include "../../../app/use_cases/vehicle/releaseVehicle/ReleaseVehicleReservationUsecase.h"
 #include "../../../app/use_cases/vehicle/search/SearchVehicleUsecase.h"
+#include "../../../app/use_cases/vehicle/collect/CollectVehicleUsecase.h"
 
 
 class ConsoleApplication final {
@@ -29,10 +30,14 @@ private:
     void customerPanel(const std::shared_ptr<Account>& account) const;
     void employeePanel(const std::shared_ptr<Account>& account) const;
     void showVehicles() const;
-    void reserveVehicleFlow(const CustomerAccount& customer) const;
+    void showCustomerData(const CustomerAccount& customer) const;
+    void showEmployeeData(const EmployeeAccount& employee) const;
+    void reserveVehicleFlow(const std::shared_ptr<CustomerAccount>& customer) const;
+    void collectVehicleFlow(const std::shared_ptr<CustomerAccount>& customer) const;
+    [[nodiscard]] bool canCollectVehicle(const CustomerAccount& customer) const;
     void addVehicleFlow() const;
     void removeVehicleFlow() const;
-    void markReadyForPickupFlow() const;
+    void markReadyForPickupFlow(const EmployeeAccount& employee) const;
     void releaseReservationFlow(EmployeeAccount& employee) const;
 
     static void showEmployeeTasks(const EmployeeAccount& employee);
@@ -41,7 +46,7 @@ private:
     static void printMessage(const std::string& message);
 
     void searchVehicles() const;
-    [[nodiscard]] static CustomerAccount& requireCustomerAccount(const std::shared_ptr<Account>& account);
+    [[nodiscard]] static std::shared_ptr<CustomerAccount> requireCustomerAccount(const std::shared_ptr<Account>& account);
     [[nodiscard]] static EmployeeAccount& requireEmployeeAccount(const std::shared_ptr<Account>& account);
 
     static double readDouble(const std::string& label) ;
@@ -58,7 +63,7 @@ private:
     MarkVehicleReadyForPickupUsecase markVehicleReadyForPickupUseCase_;
     ReleaseVehicleReservationUsecase releaseVehicleReservationUseCase_;
     ReserveVehicleUsecase reserveVehicleUseCase_;
-    mutable bool maintenanceMode_ { false };
+    CollectVehicleUsecase collectVehicleUseCase_;
 };
 
 

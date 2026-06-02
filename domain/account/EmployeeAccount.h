@@ -22,8 +22,6 @@ public:
     void completeTasksForVehicle(std::string_view licensePlate) const;
 
     [[nodiscard]] std::uint32_t getEmployeeId() const noexcept;
-    [[nodiscard]] const std::string& getFirstName() const noexcept;
-    [[nodiscard]] const std::string& getLastName() const noexcept;
     [[nodiscard]] std::string getFullName() const noexcept;
     [[nodiscard]] std::uint32_t getPendingTaskCount() const noexcept;
     [[nodiscard]] const std::vector<std::shared_ptr<Task>>& getTaskList() const noexcept;

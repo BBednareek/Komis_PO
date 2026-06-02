@@ -9,6 +9,7 @@ struct TaskData final {
     std::string taskName;
     std::string description;
     std::string assignedVehicleLicensePlate;
+    std::string assignedCustomerName;
     TaskStatus status {TaskStatus::Pending};
 };
 #endif //KOMISPO_TASKDATA_H

@@ -15,7 +15,6 @@ public:
 
     [[nodiscard]] bool               isLoggedIn() const noexcept;
     [[nodiscard]] const std::string& getLogin()   const noexcept;
-    [[nodiscard]] static std::string hashPassword(std::string_view password);
     [[nodiscard]] bool auth(std::string_view password) const noexcept;
                   void login();
                   void logout();

@@ -24,17 +24,17 @@ void EmployeeAccount::assignTask(const std::shared_ptr<Task>& task) {
 void EmployeeAccount::completeTask(const std::size_t index) {
         if (index >= tasks_.size() || tasks_[index] == nullptr) throw TaskException("Nie znaleziono zadania o podanym indeksie");
 
-        tasks_.erase(tasks_.begin() + static_cast<long>(index));
+        tasks_[index]->complete();
 }
 
 void EmployeeAccount::completeTasksForVehicle(const std::string_view licensePlate) const {
         for (const auto& task : tasks_) {
                 if (task == nullptr) continue;
 
-                const auto assignedVehicle = task->getAssignedVehicle().lock();
-                if (assignedVehicle == nullptr) continue;
+                if (task->getAssignedVehicleLicensePlate() != licensePlate) continue;
+                if (task->getTaskStatus() == TaskStatus::Completed || task->getTaskStatus() == TaskStatus::Cancelled) continue;
 
-                if (assignedVehicle->getLicensePlate() == licensePlate) task->complete();
+                task->cancel();
         }
 }
 
