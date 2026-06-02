@@ -28,10 +28,6 @@ void VehicleRepositoryImpl::remove(const std::string_view registration) {
         });
     }
 
-void VehicleRepositoryImpl::clear() {
-    vehicleList_.clear();
-}
-
     std::shared_ptr<Vehicle> VehicleRepositoryImpl::findByRegistration(const std::string_view registration)  {
         const auto vehiclePtr = vehicleList_.findData([&](const std::shared_ptr<Vehicle>& v) {
             return v -> getLicensePlate() == registration;

@@ -36,11 +36,6 @@ void AccountRepositoryImpl::addCustomer(const std::shared_ptr<CustomerAccount> a
     customerAccountList_.pushBack(account);
 }
 
-void AccountRepositoryImpl::clear() {
-    employeeAccountList_.clear();
-    customerAccountList_.clear();
-}
-
 std::shared_ptr<CustomerAccount> AccountRepositoryImpl::findCustomerByLogin(const std::string_view login) {
     const auto accountPtr = customerAccountList_.findData([&](const std::shared_ptr<CustomerAccount>& cA) {
         return cA->getLogin() == login;

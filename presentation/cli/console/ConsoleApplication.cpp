@@ -100,16 +100,9 @@ void ConsoleApplication::run() const {
             }
 
             handleMainAction(action);
-            if (maintenanceMode_) {
-                break;
-            }
         } catch (const std::exception& e) {
             printMessage(e.what());
         }
-    }
-
-    if (maintenanceMode_) {
-        stayAliveAfterClear();
     }
 
     printMessage("Do zobaczenia");
@@ -127,9 +120,6 @@ void ConsoleApplication::handleMainAction(const MainAction action) const {
 
         case MainAction::ShowVehicles:
             showVehicles();
-            break;
-        case MainAction::ClearData:
-            clearData();
             break;
         case MainAction::Exit:
             break;
@@ -155,19 +145,6 @@ void ConsoleApplication::handleEmployeeLogin() const {
     employeePanel(account);
 }
 
-void ConsoleApplication::clearData() const {
-    if (!confirmClearData()) {
-        printMessage("Anulowano czyszczenie danych");
-        return;
-    }
-
-    system_.accounts().clear();
-    system_.vehicles().clear();
-    system_.tasks().clear();
-    maintenanceMode_ = true;
-
-    printMessage("Dane zostaly wyczyszczone. Program pozostaje aktywny bez dostepu do menu.");
-}
 void ConsoleApplication::customerPanel(const std::shared_ptr<Account>& account) const {
     const auto& customer = requireCustomerAccount(account);
     bool loggedIn = true;
@@ -394,13 +371,3 @@ void ConsoleApplication::printMessage(const std::string& message) {
     return static_cast<std::uint32_t>(std::stoul(value));
 }
 
-[[nodiscard]] bool ConsoleApplication::confirmClearData() {
-    const auto answer = Menu::prompt("Czy na pewno wyczyscic dane? (tak/nie): ");
-    return answer == "tak" || answer == "TAK" || answer == "Tak" || answer == "t" || answer == "T" || answer == "1";
-}
-
-[[noreturn]] void ConsoleApplication::stayAliveAfterClear() const {
-    while (true) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
-}

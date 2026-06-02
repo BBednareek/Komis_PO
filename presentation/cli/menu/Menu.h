@@ -7,7 +7,6 @@ enum class MainAction : std::uint8_t {
     CustomerLogin   = 1,
     EmployeeLogin   = 2,
     ShowVehicles    = 3,
-    ClearData       = 4,
     Exit            = 0
 };
 

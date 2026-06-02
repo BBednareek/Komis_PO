@@ -8,7 +8,6 @@ class AccountRepositoryImpl final : public AccountRepository {
 public:
     void addEmployee( std::shared_ptr<EmployeeAccount> account) override;
     void addCustomer( std::shared_ptr<CustomerAccount> account) override;
-    void clear() override;
 
     std::shared_ptr<CustomerAccount> findCustomerByLogin(std::string_view login) override;
 

@@ -9,7 +9,6 @@
 class TaskRepositoryImpl : public TaskRepository {
 public:
     void add(const std::shared_ptr<Task>& task) override;
-    void clear() override;
     [[nodiscard]] std::vector<std::shared_ptr<Task>> getAllTasks() const override;
 
 private:
