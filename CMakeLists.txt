@@ -31,7 +31,6 @@ add_executable(KomisPO entrypoint/main.cpp
         domain/repositories/TaskRepository.h
         domain/common/DoublyLinkedList.hpp
         domain/vehicle/VehicleData.h
-        domain/task/TaskData.h
         app/use_cases/auth/customer/CustomerLoginUsecase.cpp
         app/use_cases/auth/customer/CustomerLoginUsecase.h
         app/use_cases/auth/employee/EmployeeLoginUsecase.cpp

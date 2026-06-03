@@ -9,7 +9,6 @@
 class EmployeeAccount final : public Account {
 public:
     EmployeeAccount(
-        std::uint32_t employeeId,
         std::string name,
         std::string surname,
         std::string login,
@@ -21,14 +20,12 @@ public:
     void completeTask(std::size_t index);
     void completeTasksForVehicle(std::string_view licensePlate) const;
 
-    [[nodiscard]] std::uint32_t getEmployeeId() const noexcept;
     [[nodiscard]] std::string getFullName() const noexcept;
     [[nodiscard]] std::uint32_t getPendingTaskCount() const noexcept;
     [[nodiscard]] const std::vector<std::shared_ptr<Task>>& getTaskList() const noexcept;
 
 
 private:
-    std::uint32_t employeeId_;
     std::string name_;
     std::string surname_;
     std::vector<std::shared_ptr<Task>> tasks_;

@@ -5,12 +5,9 @@
 
 #include <memory>
 #include <string>
-
-#include "TaskData.h"
 #include "TaskStatus.h"
-
-class CustomerAccount;
-class Vehicle;
+#include "../account/CustomerAccount.h"
+#include "../vehicle/Vehicle.h"
 
 class Task {
 public:
