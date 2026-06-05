@@ -43,7 +43,6 @@ EmployeeAction Menu::promptEmployeeAction() {
                 << "5. Zwolnij rezerwacje pojazdu\n"
                 << "6. Lista zadan\n"
                 << "7. Oznacz zadanie jako wykonane\n"
-                << "8. Pokaz dane pracownika\n"
                 << "0. Wyloguj\n"
                 << "Wybor: ";
 

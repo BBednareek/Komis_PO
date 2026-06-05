@@ -116,7 +116,6 @@ void generateSampleData(System& system) {
             lastName + std::to_string(100 + i);
 
         const auto employee = std::make_shared<EmployeeAccount>(
-            i + 1,
             firstName,
             lastName,
             username,

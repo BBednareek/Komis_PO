@@ -1,5 +1,4 @@
 #include "AccountRepositoryImpl.h"
-#include <cstdint>
 #include <memory>
 #include "../../../domain/common/ListTypes.h"
 #include "../../../domain/repositories/AccountRepository.h"

@@ -83,7 +83,6 @@ ConsoleApplication::ConsoleApplication(System& system) :
         customerLoginUseCase_(system.accounts()),
         searchVehicleUseCase_(system.vehicles()),
         employeeLoginUseCase_(system.accounts()),
-        completeTaskUseCase_(),
         addVehicleUseCase_(system.vehicles()),
         removeVehicleUseCase_(system.vehicles()),
         markVehicleReadyForPickupUseCase_(system.vehicles(), system.tasks()),

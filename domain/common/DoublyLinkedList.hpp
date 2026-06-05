@@ -10,11 +10,14 @@
 template<typename T>
 class DoublyLinkedList final {
     struct Node final {
+    friend class DoublyLinkedList<T>;
+    explicit Node(std::shared_ptr<T> value) : data(std::move(value)) {}
+
+        private:
         std::shared_ptr<T>      data;
         std::unique_ptr<Node>   next;
         Node*                   prev {nullptr};
 
-        explicit Node(std::shared_ptr<T> value) : data(std::move(value)) {}
     };
 
     std::unique_ptr<Node> head_;

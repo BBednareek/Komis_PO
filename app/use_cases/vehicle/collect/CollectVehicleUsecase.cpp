@@ -13,9 +13,8 @@ CollectVehicleUsecase::CollectVehicleUsecase(
 void CollectVehicleUsecase::execute(const std::shared_ptr<CustomerAccount>& customer, const std::string_view licensePlate) const {
     if (customer == nullptr) throw ValidationException("Nie mozna odebrac pojazdu bez zalogowanego kupujacego");
 
-    const auto vehicle = vehicleRepository_.findByRegistration(licensePlate);
-
-    if (vehicle->getVehicleStatus() != VehicleStatus::ReadyForPickup) throw VehicleException("Pojazd nie jest gotowy do odbioru");
+    if (const auto vehicle = vehicleRepository_.findByRegistration(licensePlate); vehicle->getVehicleStatus() != VehicleStatus::ReadyForPickup)
+        throw VehicleException("Pojazd nie jest gotowy do odbioru");
 
     std::shared_ptr<Task> matchingTask = nullptr;
 
