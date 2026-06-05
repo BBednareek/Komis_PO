@@ -19,7 +19,7 @@ void EmployeeAccount::assignTask(const std::shared_ptr<Task>& task) {
         tasks_.push_back(task);
 }
 
-void EmployeeAccount::completeTask(const std::size_t index) {
+void EmployeeAccount::completeTask(const std::size_t index) const {
         if (index >= tasks_.size() || tasks_[index] == nullptr) throw TaskException("Nie znaleziono zadania o podanym indeksie");
 
         tasks_[index]->complete();

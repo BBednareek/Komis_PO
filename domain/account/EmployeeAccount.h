@@ -17,7 +17,7 @@ public:
     );
 
     void assignTask(const std::shared_ptr<Task>& task);
-    void completeTask(std::size_t index);
+    void completeTask(std::size_t index) const;
     void completeTasksForVehicle(std::string_view licensePlate) const;
 
     [[nodiscard]] std::string getFullName() const noexcept;

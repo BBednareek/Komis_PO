@@ -52,13 +52,13 @@ namespace {
 
     void printVehicle(const VehicleData& vehicle) {
         std::cout << vehicle.displayName()
-        << " | numer rejestracyjny: " << vehicle.licensePlate
-        << " | moc: " << vehicle.horsePower << " KM"
-        << " | rok: " << vehicle.productionYear
-        << " | pojemnosc skokowa: " << vehicle.engineCapacity
-        << " | paliwo: " << toString(vehicle.fuelType)
-        << " | data waznosci badania okresowego: " << vehicle.expirationDate
-        << " | status: " << toString(vehicle.vehicleStatus)
+        << " | numer rejestracyjny: " << vehicle.getLicensePlate()
+        << " | moc: " << vehicle.getHorsePower() << " KM"
+        << " | rok: " << vehicle.getproductionYear()
+        << " | pojemnosc skokowa: " << vehicle.getEngingeCapacity()
+        << " | paliwo: " << toString(vehicle.getFuelType())
+        << " | data waznosci badania okresowego: " << vehicle.getExpirationDate()
+        << " | status: " << toString(vehicle.getVehicleStatus())
         << '\n';
     }
 

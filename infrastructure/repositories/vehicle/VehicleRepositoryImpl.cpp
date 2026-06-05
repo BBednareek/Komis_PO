@@ -65,7 +65,7 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
         const VehicleData vData = v->getVehicleData();
 
         if (criteria.brand.has_value()) {
-            const auto vehicleBrand = normalize(vData.brand);
+            const auto vehicleBrand = normalize(vData.getBrand());
 
             if (const auto searchBrand = normalize(criteria.brand.value()); vehicleBrand.find(searchBrand) == std::string::npos) {
                 return;
@@ -73,7 +73,7 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
         }
 
         if (criteria.model.has_value()) {
-            const auto vehicleModel = normalize(vData.model);
+            const auto vehicleModel = normalize(vData.getModel());
 
             if (const auto searchModel = normalize(criteria.model.value()); vehicleModel.find(searchModel) == std::string::npos) {
                 return;
@@ -81,17 +81,17 @@ VehicleRepositoryImpl::searchForCar(const VehicleSearchCriteria& criteria) {
         }
 
         if (criteria.minYear.has_value() &&
-            vData.productionYear < criteria.minYear.value()) {
+            vData.getproductionYear() < criteria.minYear.value()) {
             return;
         }
 
         if (criteria.maxYear.has_value() &&
-            vData.productionYear > criteria.maxYear.value()) {
+            vData.getproductionYear() > criteria.maxYear.value()) {
             return;
         }
 
         if (criteria.fuelType.has_value() &&
-            vData.fuelType != criteria.fuelType.value()) {
+            vData.getFuelType() != criteria.fuelType.value()) {
             return;
         }
 
