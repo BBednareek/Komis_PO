@@ -4,6 +4,7 @@
 #define KOMISPO_DOUBLYLINKEDLIST_H
 #include <iostream>
 #include <memory>
+#include <vector>
 
 //Template uzyty dla Vehicle/TaskList - maja te same metody i strukture, stad decyzja
 

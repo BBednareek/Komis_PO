@@ -1,6 +1,7 @@
 #ifndef KOMISPO_MENU_H
 #define KOMISPO_MENU_H
 
+#include <cstdint>
 #include <string>
 
 enum class MainAction : std::uint8_t {

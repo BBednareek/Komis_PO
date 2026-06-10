@@ -22,6 +22,7 @@ public:
     [[nodiscard]] const std::string& getAddress() const noexcept;
     [[nodiscard]] std::string getFullName() const;
     [[nodiscard]] std::vector<std::shared_ptr<Vehicle>> getReservedVehicleList() const noexcept;
+    [[nodiscard]] std::uint32_t getPurchasedVehiclesCount() const noexcept;
     void removeReservedVehicle(const std::string& licensePlate);
 
 

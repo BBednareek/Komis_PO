@@ -2,6 +2,7 @@
 
 #ifndef KOMISPO_VEHICLEDATA_H
 #define KOMISPO_VEHICLEDATA_H
+#include <cstdint>
 #include <string>
 #include <utility>
 #include "FuelType.h"
@@ -39,7 +40,7 @@ public:
     expirationDate_(std::move(expirationDate)),
     engineCapacity_(engineCapacity),
     fuelType_(fuelType),
-    vehicleStatus_(VehicleStatus::ForSale) {}
+    vehicleStatus_(vehicleStatus) {}
 
 private:
     std::string brand_;

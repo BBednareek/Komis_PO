@@ -7,7 +7,7 @@
 #include "../vehicle/Vehicle.h"
 #include <string_view>
 #include <vector>
-
+#include <memory>
 #include "../vehicle/VehicleSearchCriteria.h"
 
 class VehicleRepository {

@@ -244,6 +244,7 @@ void ConsoleApplication::showCustomerData(const CustomerAccount& customer) const
     std::cout << "\n=== DANE KLIENTA ===\n";
     std::cout << "Imie i nazwisko: " << customer.getFullName() << '\n';
     std::cout << "Adres: " << customer.getAddress() << '\n';
+    std::cout << "Ilosc zakupionych pojazdow: " << customer.getPurchasedVehiclesCount() << '\n';
 }
 
 void ConsoleApplication::showEmployeeData(const EmployeeAccount& employee) const {

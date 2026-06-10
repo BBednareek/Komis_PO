@@ -4,6 +4,8 @@
 
 #include "CustomerAccount.h"
 
+#include <algorithm>
+
 CustomerAccount::CustomerAccount(
         std::string name,
         std::string surname,
@@ -30,6 +32,7 @@ void CustomerAccount::removeReservedVehicle(const std::string& licensePlate) {
 
     if (it != vehicle_.end()) vehicle_.erase(it);
 }
+[[nodiscard]] std::uint32_t CustomerAccount::getPurchasedVehiclesCount() const noexcept { return purchasedVehiclesCount_; }
 
 void CustomerAccount::incrementPurchasedVehicles() noexcept { ++purchasedVehiclesCount_; }
 const std::string &CustomerAccount::getAddress() const noexcept { return address_; }
